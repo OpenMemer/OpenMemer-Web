@@ -1,7 +1,9 @@
+/* Fallback styles and root styles */
 :root {
     background-color: black;
     font-family: Arial, Helvetica, sans-serif;
 }
+/* Center the body content */
 body{
     display: flex;
     flex-direction: column;
@@ -9,12 +11,13 @@ body{
     justify-content: center;
 
 }
-
+/* Logo styles */
 .logo {
     color: white;
     text-align: center;
     font-family: liberation sans, sans-serif;
 }
+/* container for the canvas */
 #canvasHolder {
     display: flex;
     justify-content: center;
@@ -28,4 +31,33 @@ body{
     overflow: hidden;
     background-color: black;
     margin-top: 5%;
+    cursor: pointer;
+}
+/* canvas element styles */
+#memeEditor {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    user-select: none;
+    overflow: inherit;
+}
+/* controls container */
+.controls {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60vw;
+    gap: 1rem;
+}
+/* Text input styles */
+.textInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: liberation sans, sans-serif;
 }
