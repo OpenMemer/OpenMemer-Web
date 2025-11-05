@@ -60,4 +60,15 @@ body{
     background-color: black;
     color: white;
     font-family: liberation sans, sans-serif;
+    box-sizing: border-box;
+}
+#exportBtn{
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: 2px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: liberation sans, sans-serif;
+    cursor: pointer;
 }
