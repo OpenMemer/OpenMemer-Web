@@ -19,24 +19,24 @@ body{
 }
 /* container for the canvas */
 #canvasHolder {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     border: 2px solid white;
     box-shadow: 0 0 10px white;
     border-radius: 1%;
-    margin-top: 20px;
-    width: 60vw;
+    margin-top: 10px;
+    width: 45vw;
     height: auto;
     overflow: hidden;
-    background-color: black;
-    margin-top: 5%;
+    background-color: red;
+    margin-top: 0%;
     cursor: pointer;
 }
 /* canvas element styles */
 #memeEditor {
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
     user-select: none;
     overflow: inherit;
@@ -47,7 +47,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 60vw;
+    width: 45vw;
     gap: 1rem;
 }
 /* Text input styles */
