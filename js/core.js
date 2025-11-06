@@ -1,7 +1,7 @@
 const canvas = document.getElementById('memeEditor'); // get the canvas element
 const ctx = canvas.getContext('2d'); // get 2D context for drawing
 let image = new Image(); // create a new image object
-
+let selectedMemeType = 'impactMeme'; // default meme type
 const fileInput = document.getElementById('imageLoader'); // input element
 fileInput.addEventListener('change', handleImage) // listen for file input changes
 function handleImage() {
@@ -38,35 +38,49 @@ function handleImage() {
 
         // draw the image on the canvas when it loads
         console.log("Image loaded!");
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-        const displayWidth = canvas.clientWidth; // get the display width of the canvas
-        const scale = displayWidth / image.width; // calculate scale to fit width
-        canvas.width = displayWidth; // set canvas width
-        canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
-        const x = 0; // x position to draw
-        let y = 0; // y position to draw
-        ctx.drawImage(image, x, y, canvas.width, canvas.height); // draw the image
-
 
         
         drawMeme(); // initial draw call
     };
 }
-
+// Function to draw meme text on the canvas
 function drawMeme() {
-    // Future function to redraw meme with textboxes
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas
-    const scale = canvas.width / image.width;
-    const scaledHeight = image.height * scale;
-    ctx.drawImage(image, 0, 0, image.width * scale, scaledHeight); // redraw the image
-    const fontSize = canvas.width * 0.08; // font size
-    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`; // set font
-    ctx.fillStyle = 'white'; // text color
-    ctx.strokeStyle = 'black'; // outline color
-    ctx.lineWidth = fontSize * 0.1; // outline width
-    ctx.textAlign = 'center'; // center align text
-    const text = topText.value;
+    drawBaseImage();
+    const fontSize = canvas.width * 0.08;
 
-    ctx.fillText(text, canvas.width / 2, fontSize); // draw filled text
-    ctx.strokeText(text, canvas.width / 2, fontSize); // draw text outline
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = fontSize * 0.02;
+    ctx.textAlign = 'center';
+    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+    ctx.textAlign = 'center';
+
+    const topTextValue = topText.value.toUpperCase();
+    const bottomTextValue = bottomText.value.toUpperCase();
+
+    ctx.fillText(topTextValue, canvas.width / 2, fontSize + 10);
+    ctx.strokeText(topTextValue, canvas.width / 2, fontSize + 10);
+
+    ctx.fillText(bottomTextValue, canvas.width / 2, canvas.height - fontSize * 0.3);
+    ctx.strokeText(bottomTextValue, canvas.width / 2, canvas.height - fontSize * 0.3);
+}
+// Function to draw the base image on the canvas
+function drawBaseImage() {
+    if (!image || !image.complete) return; // ensure image is loaded
+    // First, we clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Then, we calculate the scale to fit the image within the canvas width
+    
+    const displayWidth = canvas.clientWidth; // get the display width of the canvas
+    // Next, we adjust the canvas height to maintain the aspect ratio
+    canvas.width = displayWidth; // set canvas width
+    const scale = canvas.width / image.width; // calculate scale factor. we do this by dividing canvas width by image width. this gives us a scale factor to maintain aspect ratio.
+    canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
+
+    // Next, we determine the position to draw the image
+    let y = 0; // y position to draw
+    let x = 0; // x position to draw
+
+    // Finally, we draw the image on the canvas
+    ctx.drawImage(image, x, y, canvas.width, canvas.height); // redraw the image
 }
