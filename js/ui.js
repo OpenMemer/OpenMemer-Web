@@ -19,7 +19,7 @@ const advancedSettingsHandler = document.getElementById('advancedSettingsHandler
 advancedSettingsBtn.addEventListener('click', () => {
     // toggle advanced settings visibility
     advancedSettingsHandler.classList.toggle('visible');
-    advanvedSettingsHandler.classList.toggle('hidden');
+    advancedSettingsHandler.classList.toggle('hidden');
     // toggle button text
     if (advancedSettingsBtn.textContent === 'advanced settings') {
         advancedSettingsBtn.textContent = 'close advanced settings';
