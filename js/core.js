@@ -1,8 +1,10 @@
 const canvas = document.getElementById('memeEditor'); // get the canvas element
+const canvasHolder = document.getElementById('canvasHolder'); // ensure ref
 const ctx = canvas.getContext('2d'); // get 2D context for drawing
 let image = new Image(); // create a new image object
 let selectedMemeType = 'impactMeme'; // default meme type
 const fileInput = document.getElementById('imageLoader'); // input element
+let hasImageBeenLoaded = false; // flag to track if an image has been loaded
 fileInput.addEventListener('change', handleImage) // listen for file input changes
 function handleImage() {
     const file = fileInput.files[0]; // get the selected file
@@ -38,6 +40,7 @@ function handleImage() {
 
         // draw the image on the canvas when it loads
         console.log("Image loaded!");
+        hasImageBeenLoaded = true; // set flag to true
 
 
         drawMeme(); // initial draw call
@@ -45,23 +48,25 @@ function handleImage() {
 }
 // Function to draw the base image on the canvas
 function drawBaseImage() {
-    if (!image || !image.complete) return; // ensure image is loaded
-    // First, we clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Then, we calculate the scale to fit the image within the canvas width
+    if (hasImageBeenLoaded == true) {
+        if (!image || !image.complete) return; // ensure image is loaded
+        // First, we clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Then, we calculate the scale to fit the image within the canvas width
 
-    const displayWidth = canvas.clientWidth; // get the display width of the canvas
-    // Next, we adjust the canvas height to maintain the aspect ratio
-    canvas.width = displayWidth; // set canvas width
-    const scale = canvas.width / image.width; // calculate scale factor. we do this by dividing canvas width by image width. this gives us a scale factor to maintain aspect ratio.
-    canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
+        const displayWidth = canvas.clientWidth; // get the display width of the canvas
+        // Next, we adjust the canvas height to maintain the aspect ratio
+        canvas.width = displayWidth; // set canvas width
+        const scale = canvas.width / image.width; // calculate scale factor. we do this by dividing canvas width by image width. this gives us a scale factor to maintain aspect ratio.
+        canvas.height = image.height * scale; // set canvas height to maintain aspect ratio
 
-    // Next, we determine the position to draw the image
-    let y = 0; // y position to draw
-    let x = 0; // x position to draw
+        // Next, we determine the position to draw the image
+        let y = 0; // y position to draw
+        let x = 0; // x position to draw
 
-    // Finally, we draw the image on the canvas
-    ctx.drawImage(image, x, y, canvas.width, canvas.height); // redraw the image
+        // Finally, we draw the image on the canvas
+        ctx.drawImage(image, x, y, canvas.width, canvas.height); // redraw the image
+    }
 }
 
 function drawTopText(text, fontSize) {
@@ -92,30 +97,32 @@ function drawBottomText(text, fontSize) {
 }
 
 function drawMeme() {
-    drawBaseImage();
-    const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
-    const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
-    const fontSize = canvas.width * fontSizeValue;
+    if (hasImageBeenLoaded == true) {
+        drawBaseImage();
+        const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
+        const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
+        const fontSize = canvas.width * fontSizeValue;
 
 
-    ctx.fillStyle = 'white';
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = fontSize * strokeWidthValue;
-    ctx.textAlign = 'center';
-    ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
-    ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = fontSize * strokeWidthValue;
+        ctx.textAlign = 'center';
+        ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+        ctx.textAlign = 'center';
 
-    const topTextValue = topText.value.toUpperCase();
-    const bottomTextValue = bottomText.value.toUpperCase();
+        const topTextValue = topText.value.toUpperCase();
+        const bottomTextValue = bottomText.value.toUpperCase();
 
-    drawTopText(topTextValue, fontSize);
-    drawBottomText(bottomTextValue, fontSize);
+        drawTopText(topTextValue, fontSize);
+        drawBottomText(bottomTextValue, fontSize);
+    }
 }
 
 function wrapText(ctx, text, maxWidth) { // helper function to wrap text
     const words = text.split(' '); // split text into words into an array
     let line = ''; // current line
-    const lines = [];  // array to hold lines
+    const lines = []; // array to hold lines
     for (let i = 0; i < words.length; i++) { // iterate over words
         const testLine = line + words[i] + ' '; // test adding the next word
         const testWidth = ctx.measureText(testLine).width; // measure the width of the test line
