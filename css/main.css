@@ -27,7 +27,7 @@ body.adv-open {
 .logo {
     color: white;
     text-align: center;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
 }
 
 /* container for the canvas */
@@ -85,7 +85,7 @@ body.adv-open {
     border-radius: 5px;
     background-color: black;
     color: white;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
     box-sizing: border-box;
     text-align: center;
 }
@@ -97,7 +97,7 @@ body.adv-open {
     border-radius: 5px;
     background-color: black;
     color: white;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
     cursor: pointer;
 }
 
@@ -114,7 +114,7 @@ body.adv-open {
     border-radius: 5px;
     background-color: black;
     color: white;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
     cursor: pointer;
 }
 button {
@@ -152,7 +152,7 @@ button:active {
 
 .advLabel {
     color: white;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
 }
 
 .advInput {
@@ -162,6 +162,6 @@ button:active {
     border-radius: 5px;
     background-color: black;
     color: white;
-    font-family: liberation sans, sans-serif;
+    font-family: 'Libre Franklin', sans-serif;
     cursor: pointer;
 }

@@ -171,3 +171,275 @@
     src: local('Anton'), url('../fonts/anton/anton.woff') format('woff');
     font-display: swap;
 }
+
+/* Arimo static weights */
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Arimo Regular'), url('../fonts/Arimo/static/Arimo-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Arimo Italic'), url('../fonts/Arimo/static/Arimo-Italic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Arimo Medium'), url('../fonts/Arimo/static/Arimo-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: italic;
+    font-weight: 500;
+    src: local('Arimo Medium Italic'), url('../fonts/Arimo/static/Arimo-MediumItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Arimo SemiBold'), url('../fonts/Arimo/static/Arimo-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: italic;
+    font-weight: 600;
+    src: local('Arimo SemiBold Italic'), url('../fonts/Arimo/static/Arimo-SemiBoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Arimo Bold'), url('../fonts/Arimo/static/Arimo-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Arimo';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Arimo Bold Italic'), url('../fonts/Arimo/static/Arimo-BoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+
+/* Bai Jamjuree weights */
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 200;
+    src: local('Bai Jamjuree ExtraLight'), url('../fonts/Bai_Jamjuree/BaiJamjuree-ExtraLight.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 200;
+    src: local('Bai Jamjuree ExtraLight Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-ExtraLightItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Bai Jamjuree Light'), url('../fonts/Bai_Jamjuree/BaiJamjuree-Light.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 300;
+    src: local('Bai Jamjuree Light Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-LightItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Bai Jamjuree Regular'), url('../fonts/Bai_Jamjuree/BaiJamjuree-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Bai Jamjuree Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-Italic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Bai Jamjuree Medium'), url('../fonts/Bai_Jamjuree/BaiJamjuree-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 500;
+    src: local('Bai Jamjuree Medium Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-MediumItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Bai Jamjuree SemiBold'), url('../fonts/Bai_Jamjuree/BaiJamjuree-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 600;
+    src: local('Bai Jamjuree SemiBold Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-SemiBoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Bai Jamjuree Bold'), url('../fonts/Bai_Jamjuree/BaiJamjuree-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Bai Jamjuree';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Bai Jamjuree Bold Italic'), url('../fonts/Bai_Jamjuree/BaiJamjuree-BoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+
+/* Libre Franklin weights */
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 100;
+    src: local('Libre Franklin Thin'), url('../fonts/Libre_Franklin/static/LibreFranklin-Thin.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 100;
+    src: local('Libre Franklin Thin Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-ThinItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 200;
+    src: local('Libre Franklin ExtraLight'), url('../fonts/Libre_Franklin/static/LibreFranklin-ExtraLight.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 200;
+    src: local('Libre Franklin ExtraLight Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-ExtraLightItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Libre Franklin Light'), url('../fonts/Libre_Franklin/static/LibreFranklin-Light.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 300;
+    src: local('Libre Franklin Light Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-LightItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Libre Franklin Regular'), url('../fonts/Libre_Franklin/static/LibreFranklin-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 400;
+    src: local('Libre Franklin Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-Italic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Libre Franklin Medium'), url('../fonts/Libre_Franklin/static/LibreFranklin-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 500;
+    src: local('Libre Franklin Medium Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-MediumItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Libre Franklin SemiBold'), url('../fonts/Libre_Franklin/static/LibreFranklin-SemiBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 600;
+    src: local('Libre Franklin SemiBold Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-SemiBoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Libre Franklin Bold'), url('../fonts/Libre_Franklin/static/LibreFranklin-Bold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 700;
+    src: local('Libre Franklin Bold Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-BoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 800;
+    src: local('Libre Franklin ExtraBold'), url('../fonts/Libre_Franklin/static/LibreFranklin-ExtraBold.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 800;
+    src: local('Libre Franklin ExtraBold Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-ExtraBoldItalic.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Libre Franklin Black'), url('../fonts/Libre_Franklin/static/LibreFranklin-Black.ttf') format('truetype');
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Franklin';
+    font-style: italic;
+    font-weight: 900;
+    src: local('Libre Franklin Black Italic'), url('../fonts/Libre_Franklin/static/LibreFranklin-BlackItalic.ttf') format('truetype');
+    font-display: swap;
+}
