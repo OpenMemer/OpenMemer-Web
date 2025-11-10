@@ -1,6 +1,7 @@
 # OpenMemer
 
 A simple, free, open-source meme generator with no watermarks, no ads, lightweight and fully client-side.
+[Make your own meme here](https://openmemer.com/)
 
 
 ## Features
