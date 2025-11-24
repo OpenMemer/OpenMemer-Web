@@ -315,6 +315,12 @@ button:active {
     }
 
     /* Keyboard open state */
+    body.keyboard-open {
+        justify-content: flex-start;
+        padding-bottom: 80px;
+        padding-top: 10px;
+    }
+
     body.keyboard-open #exportBtn,
     body.keyboard-open #advBtn,
     body.keyboard-open #advancedSettingsHandler {
@@ -322,12 +328,19 @@ button:active {
     }
 
     body.keyboard-open .controls {
+        position: fixed;
         background: transparent;
         box-shadow: none;
         backdrop-filter: none;
         bottom: 0;
         height: auto;
         padding: 10px;
+        z-index: 999999;
+        left: 0;
+        width: 100%;
+        transform: none;
+        border-radius: 0;
+        box-sizing: border-box;
     }
 
     body.keyboard-open .textInput {
