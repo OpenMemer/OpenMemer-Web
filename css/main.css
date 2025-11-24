@@ -231,6 +231,17 @@ button:active {
     display: none;
 }
 
+.version-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    color: #444;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 0.75rem;
+    z-index: 100;
+    pointer-events: none;
+}
+
 @media (max-width: 600px) {
 
     /* Center the body content */
