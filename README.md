@@ -14,12 +14,32 @@ A simple, free, open-source meme generator with no watermarks, no ads, lightweig
 - No accounts, no ads, no bullshit
 
 ## To-Do list
+This is stuff I have to do in order to get the minimum viable product done.
 - [X] Mobile layout
 - [ ] Mobile layout that isn't horrible
 - [ ] GIF / animated caption support
 - [ ] Demotivational poster mode
 - [ ] Drag-to-position text
 - [ ] Drag 'n drop mode
+
+## Stretch Goals
+I want OpenMemer to become the ultimate shitposting suite.
+For that to be accomplished, I want to add the following:
+# Audio support
+- [ ] Low quality sound (low bitrate converter)
+- [ ] "Earrape" audio (distortion/amplification)
+- [ ] Regular pitch shifts
+- [ ] "Griffin method" (Capcut's "Beat" feature, where you can pitch shift with keyframes. Probably won't be able to implement this)
+# Image editing
+- [ ] Low quality/bitcrusher
+- [ ] Deepfry
+- [ ] Filters?
+- [ ] Stickers
+- [ ] Meme formats that are updated regularly.
+- [ ] Blur effects
+
+Maybe eventually, video support can also get added.
+This is definitely not planned, but could potentially come in the future.
 
 ## Support
 
