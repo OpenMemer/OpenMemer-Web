@@ -16,7 +16,7 @@ A simple, free, open-source meme generator with no watermarks, no ads, lightweig
 ## To-Do list
 This is stuff I have to do in order to get the minimum viable product done.
 - [X] Mobile layout
-- [ ] Mobile layout that isn't horrible
+- [X] Mobile layout that isn't horrible
 - [ ] GIF / animated caption support
 - [ ] Demotivational poster mode
 - [ ] Drag-to-position text
