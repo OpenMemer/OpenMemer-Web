@@ -95,8 +95,13 @@ function setMemeMode(mode) {
 function drawDemotivationalMeme() {
     const padding = image.width * 0.1;
     const border = Math.max(2, image.width * 0.008);
-    const titleSize = image.width * 0.1; 
-    const subtitleSize = image.width * 0.06;
+    
+    const titleVal = parseFloat(document.getElementById('fontSize').value) / 100;
+    const subtitleVal = parseFloat(document.getElementById('subtitleSize').value) / 100;
+
+    const titleSize = image.width * titleVal; 
+    const subtitleSize = image.width * subtitleVal;
+
     const dpr = window.devicePixelRatio || 1;
     const displayWidth = canvasHolder.clientWidth;
 

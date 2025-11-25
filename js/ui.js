@@ -2,10 +2,13 @@
 // const fileInput = document.getElementById('imageLoader'); already declared in core.js
 const topText = document.getElementById('topText'); // top text input
 const bottomText = document.getElementById('bottomText'); // bottom text 
-const fontSizeInput = document.getElementById('fontSize'); // font size input
-const outlineWidthInput = document.getElementById('outlineWidth'); // outline width input
-fontSizeInput.addEventListener('change', drawMeme); // redraw meme on font size change
-outlineWidthInput.addEventListener('change', drawMeme); // redraw meme on outline width change
+const fontSizeInput = document.getElementById('fontSize'); 
+const outlineWidthInput = document.getElementById('outlineWidth'); 
+const subtitleSizeInput = document.getElementById('subtitleSize');
+
+fontSizeInput.addEventListener('change', drawMeme); 
+outlineWidthInput.addEventListener('change', drawMeme); 
+subtitleSizeInput.addEventListener('change', drawMeme);
 topText.addEventListener('input', drawMeme);
 bottomText.addEventListener('input', drawMeme);
 
@@ -123,13 +126,25 @@ modeBtns.forEach(btn => {
         // 2. Get the mode from the HTML (data-mode="...")
         const mode = btn.dataset.mode;
         
+        const fontSizeLabel = document.getElementById('fontSizeLabel');
+        const outlineGroup = document.getElementById('outlineGroup');
+        const subtitleGroup = document.getElementById('subtitleGroup');
+
         // 3. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
             topText.placeholder = "TITLE";
             bottomText.placeholder = "subtitle";
+
+            fontSizeLabel.textContent = "Title Size:";
+            outlineGroup.classList.add('hidden');
+            subtitleGroup.classList.remove('hidden');
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
+
+            fontSizeLabel.textContent = "Font Size:";
+            outlineGroup.classList.remove('hidden');
+            subtitleGroup.classList.add('hidden');
         }
 
         // 4. Tell Core to switch modes
