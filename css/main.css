@@ -276,7 +276,7 @@ button:active {
     right: 1rem;
     color: #444;
     font-family: 'Libre Franklin', sans-serif;
-    font-size: 0.75rem;
+    font-size: 1rem;
     z-index: 100;
     pointer-events: auto;
     cursor: pointer;
