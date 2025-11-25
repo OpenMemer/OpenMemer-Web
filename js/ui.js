@@ -132,7 +132,7 @@ modeBtns.forEach(btn => {
 
         // 3. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
-            topText.placeholder = "TITLE";
+            topText.placeholder = "title";
             bottomText.placeholder = "subtitle";
 
             fontSizeLabel.textContent = "Title Size:";
