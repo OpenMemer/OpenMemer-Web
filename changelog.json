@@ -1,4 +1,11 @@
 [
+        {
+        "version": "v1.2.2",
+        "changes": [
+            "Image size hard limit removed.",
+            "Added \"Click to upload\" hint to the image upload area for better user guidance."
+        ]
+    },
     {
         "version": "v1.2.0",
         "changes": [
