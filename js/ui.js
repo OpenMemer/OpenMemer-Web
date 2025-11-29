@@ -129,22 +129,35 @@ modeBtns.forEach(btn => {
         const fontSizeLabel = document.getElementById('fontSizeLabel');
         const outlineGroup = document.getElementById('outlineGroup');
         const subtitleGroup = document.getElementById('subtitleGroup');
+        const gifSpeedGroup = document.getElementById('gifSpeedGroup');
 
         // 3. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
             topText.placeholder = "title";
             bottomText.placeholder = "subtitle";
+            bottomText.style.display = 'block'; // Ensure visible
 
             fontSizeLabel.textContent = "Title Size:";
             outlineGroup.classList.add('hidden');
             subtitleGroup.classList.remove('hidden');
+            if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
+        } else if (mode === 'gif-mode') {
+            topText.placeholder = "caption";
+            bottomText.style.display = 'none'; // Hide bottom text
+
+            fontSizeLabel.textContent = "Caption Size:";
+            outlineGroup.classList.add('hidden'); // No outline in this style
+            subtitleGroup.classList.add('hidden');
+            if(gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
+            bottomText.style.display = 'block'; // Ensure visible
 
             fontSizeLabel.textContent = "Font Size:";
             outlineGroup.classList.remove('hidden');
             subtitleGroup.classList.add('hidden');
+            if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         }
 
         // 4. Tell Core to switch modes

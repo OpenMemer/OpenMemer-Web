@@ -1,4 +1,12 @@
-[
+    [
+        {
+            "version": "v1.3.0",
+            "changes": [
+                "Added GIF Caption mode.",
+                "GIF uploads are now supported alongside static images.",
+                "Export to animated GIF added, including a GIF speed control that affects both preview and export."
+            ]
+        },
         {
         "version": "v1.2.2",
         "changes": [

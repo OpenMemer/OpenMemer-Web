@@ -1,5 +1,14 @@
 /* All fonts go here */
 
+/* Futura PT Condensed Bold */
+@font-face {
+    font-family: 'Futura PT Condensed Bold';
+    font-style: normal;
+    font-weight: bold;
+    src: local('Futura PT Condensed Bold'), url('../fonts/futura/futura-pt-cond-bold.woff') format('woff');
+    font-display: swap;
+}
+
 /* Futura PT */
 @font-face {
     font-family: 'Futura Condensed PT Medium';

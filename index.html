@@ -7,6 +7,14 @@
     <title>OpenMemer</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/fonts.css">
+    <!-- GIF Libraries -->
+    <script type="module">
+        import { parseGIF, decompressFrames } from 'https://esm.sh/gifuct-js@2.1.2';
+        window.parseGIF = parseGIF;
+        window.decompressFrames = decompressFrames;
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js" defer></script>
+
     <script src="js/core.js" defer></script>
     <script src="js/ui.js" defer></script>
     <script src="js/export.js" defer></script>
@@ -77,15 +85,31 @@
                 <rect x="9" y="18" width="6" height="1" rx="0.9" fill="currentColor" />
             </svg>
         </button>
+        <button class="mode-btn" data-mode="gif-mode" aria-label="GIF Mode">
+            <!-- Demotivational Icon (Inline SVG) -->
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <!-- outer frame -->
+                <rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="none" stroke="currentColor"
+                    stroke-width="1" />
+
+                <!-- caption area (solid) -->
+                <rect x="2.5" y="2.5" width="19" height="6.5" rx="3" fill="currentColor" />
+
+                <!-- image circle -->
+                <circle cx="12" cy="15" r="3.5" fill="none" stroke="currentColor" stroke-width="1" />
+            </svg>
+
+        </button>
     </div>
 
     <div id="canvasHolder">
         <canvas id="memeEditor" width="800" height="600"></canvas>
         <div id="uploadHint" class="upload-hint">
-            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
             </svg>
             <span>click to upload image</span>
         </div>
@@ -122,10 +146,18 @@
                     <button class="pill-btn increment" data-target="subtitleSize">+</button>
                 </div>
             </div>
+            <div class="advGroup hidden" id="gifSpeedGroup">
+                <label class="advLabel" for="gifSpeed">GIF Speed %:</label>
+                <div class="pill-control">
+                    <button class="pill-btn decrement" data-target="gifSpeed">-</button>
+                    <input class="pill-input" type="number" id="gifSpeed" value="100" min="10" max="200 " step="10">
+                    <button class="pill-btn increment" data-target="gifSpeed">+</button>
+                </div>
+            </div>
         </div>
         <button id="exportBtn">export</button>
     </div>
-    <div class="version-indicator" id="versionBtn">v1.2.2</div>
+    <div class="version-indicator" id="versionBtn">v1.3.0</div>
 
     <!-- Changelog Modal -->
     <div id="changelogModal" class="modal">

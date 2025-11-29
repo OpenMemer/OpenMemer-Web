@@ -18,7 +18,7 @@ This is stuff I have to do in order to get the minimum viable product done.
 - [X] Mobile layout
 - [X] Mobile layout that isn't horrible
 - [X] Demotivational poster mode
-- [ ] GIF / animated caption support
+- [X] GIF / animated caption support
 - [ ] Drag-to-position text
 - [ ] Drag 'n drop mode
 
