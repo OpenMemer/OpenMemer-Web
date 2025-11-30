@@ -157,7 +157,7 @@
         </div>
         <button id="exportBtn">export</button>
     </div>
-    <div class="version-indicator" id="versionBtn">v1.3.1</div>
+    <div class="version-indicator" id="versionBtn">v1.3.2</div>
 
     <!-- Changelog Modal -->
     <div id="changelogModal" class="modal">
@@ -180,6 +180,24 @@
             <div class="nav-group right" id="olderNav">
                 <button class="nav-btn">&gt;</button>
                 <span class="nav-label" id="olderVersionLabel">v1.0.0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Options Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content export-options-content">
+            <span class="close-btn" id="closeExportModal">&times;</span>
+            <h2 class="modal-title">how do you want to download this?</h2>
+            <div class="export-choices">
+                <button id="exportOriginalBtn" class="export-choice-btn">
+                    <h3>Original mode</h3>
+                    <p>export in full quality<br>may cause large file<br>sizes depending on<br>gif resolution.</p>
+                </button>
+                <button id="exportDiscordBtn" class="export-choice-btn">
+                    <h3>Discord Mode</h3>
+                    <p>compress the file under<br>10MB for support<br>in services such as<br>Discord.<br>May decrease GIF quality.</p>
+                </button>
             </div>
         </div>
     </div>

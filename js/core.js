@@ -154,7 +154,7 @@ function renderGifFrameToBuffer(frame, index) {
 
 
 // Function to draw the base image on the canvas
-function drawBaseImage(exportMode = false) {
+function drawBaseImage(exportMode = false, targetWidth = null) {
     if (hasImageBeenLoaded == true) {
 
         const source = isGIF ? gifCanvas : image;
@@ -168,7 +168,12 @@ function drawBaseImage(exportMode = false) {
         const dpr = exportMode ? 1 : (window.devicePixelRatio || 1);
 
         // Then, we calculate the scale to fit the image within the canvas width
-        const displayWidth = exportMode ? source.width : canvasHolder.clientWidth; // get the display width of the canvas
+        let displayWidth;
+        if (targetWidth) {
+            displayWidth = targetWidth;
+        } else {
+            displayWidth = exportMode ? source.width : canvasHolder.clientWidth; // get the display width of the canvas
+        }
         
         // Next, we adjust the canvas height to maintain the aspect ratio
         // Multiply by dpr to set internal resolution higher than display size
@@ -186,7 +191,7 @@ function drawBaseImage(exportMode = false) {
     }
 }
 
-function drawMeme(exportMode = false) {
+function drawMeme(exportMode = false, targetWidth = null) {
     // Sanitize argument (event objects from UI listeners should be treated as false)
     if (typeof exportMode !== 'boolean') exportMode = false;
 
@@ -194,12 +199,12 @@ function drawMeme(exportMode = false) {
     if (!hasImageBeenLoaded || !image.complete) return;
     // The Manager decides who does the work
     if (currentMemeMode === 'demotivational') {
-        drawDemotivationalMeme(exportMode);
+        drawDemotivationalMeme(exportMode, targetWidth);
     } else if (currentMemeMode === 'gif-mode') {
-        drawGifCaptionMeme(exportMode);
+        drawGifCaptionMeme(exportMode, targetWidth);
     } 
     else {
-        drawImpactMeme(exportMode);
+        drawImpactMeme(exportMode, targetWidth);
     }
 }
 function setMemeMode(mode) {
@@ -209,7 +214,7 @@ function setMemeMode(mode) {
     }
 }
 
-function drawDemotivationalMeme(exportMode = false) {
+function drawDemotivationalMeme(exportMode = false, targetWidth = null) {
     const source = isGIF ? gifCanvas : image;
     if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
 
@@ -254,7 +259,14 @@ function drawDemotivationalMeme(exportMode = false) {
     const logicalHeight = source.height + (padding * 3) + textContentHeight; 
 
     // resize canvas
-    const scaleFactor = exportMode ? 1 : ((displayWidth * dpr) / logicalWidth);
+    let scaleFactor;
+    if (targetWidth) {
+        // If targetWidth is provided, scale logicalWidth to match targetWidth
+        scaleFactor = targetWidth / logicalWidth;
+    } else {
+        scaleFactor = exportMode ? 1 : ((displayWidth * dpr) / logicalWidth);
+    }
+    
     canvas.width = logicalWidth * scaleFactor;
     canvas.height = logicalHeight * scaleFactor;
 
@@ -301,11 +313,17 @@ function drawDemotivationalMeme(exportMode = false) {
     }
 }
 
-function drawGifCaptionMeme(exportMode = false) {
+function drawGifCaptionMeme(exportMode = false, targetWidth = null) {
     // Identify source 
     const source = isGIF ? gifCanvas : image;
     const dpr = exportMode ? 1 : (window.devicePixelRatio || 1);
-    const displayWidth = exportMode ? source.width : canvasHolder.clientWidth;
+    
+    let displayWidth;
+    if (targetWidth) {
+        displayWidth = targetWidth;
+    } else {
+        displayWidth = exportMode ? source.width : canvasHolder.clientWidth;
+    }
 
     // Calculate scaling
     const scale = (displayWidth * dpr) / source.width;
@@ -318,7 +336,7 @@ function drawGifCaptionMeme(exportMode = false) {
     const padding = fontSize * 0.5;
 
     // configure font context to measure text
-    ctx.font = `${fontSize}px "Futura PT Condensed Bold", "Futura Condensed PT Medium", "Futura PT Bold", Arial, sans-serif`;
+    ctx.font = `${fontSize}px "Futura PT Condensed Bold", sans-serif`;
 
     const captionText = topText.value;
     const maxTextWidth = scaledImageWidth - (padding * 2);
@@ -389,9 +407,9 @@ function drawBottomText(text, fontSize) {
 
 }
 // IMPACT MEME DRAWING FUNCTION
-function drawImpactMeme(exportMode = false) {
+function drawImpactMeme(exportMode = false, targetWidth = null) {
     if (hasImageBeenLoaded == true) {
-        drawBaseImage(exportMode);
+        drawBaseImage(exportMode, targetWidth);
         const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
         const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
         const fontSize = canvas.width * fontSizeValue;

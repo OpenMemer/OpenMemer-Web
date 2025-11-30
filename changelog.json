@@ -1,5 +1,11 @@
     [
         {
+            "version": "v1.3.2",
+            "changes": [
+                "Added 'Discord Mode' for GIF exports to compress files under 10MB."
+            ]
+        },
+        {
             "version": "v1.3.0",
             "changes": [
                 "Added GIF Caption mode.",

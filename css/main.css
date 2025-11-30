@@ -284,6 +284,16 @@ button:active {
 }
 
 /* Modal Overlay */
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalContentScale {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -300,6 +310,11 @@ button:active {
 
 .modal.show {
     display: flex;
+    animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+.modal.show .modal-content {
+    animation: modalContentScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .modal-wrapper {
@@ -434,6 +449,67 @@ button:active {
 
 .upload-hint.hidden {
     display: none;
+}
+
+/* Export Modal Styles */
+.export-options-content {
+    max-width: 700px;
+    text-align: center;
+    background: #000;
+    border: 1px solid #333;
+}
+
+.modal-title {
+    margin-bottom: 2rem;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.export-choices {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.export-choice-btn {
+    flex: 1;
+    min-width: 250px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.export-choice-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.export-choice-btn h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+.export-choice-btn p {
+    font-size: 1rem;
+    opacity: 0.8;
+    line-height: 1.4;
+    margin: 0;
+    font-family: 'Libre Franklin', sans-serif;
+}
+
+@media (max-width: 600px) {
+    .export-choices {
+        flex-direction: column;
+    }
 }
 
 /* Mobile adjustments */

@@ -1,12 +1,36 @@
 
+const exportModal = document.getElementById('exportModal');
+const closeExportModal = document.getElementById('closeExportModal');
+const exportOriginalBtn = document.getElementById('exportOriginalBtn');
+const exportDiscordBtn = document.getElementById('exportDiscordBtn');
+
+// Main Export Button Click
 document.getElementById('exportBtn').addEventListener('click', () => {
     const exportBtn = document.getElementById('exportBtn');
-    // check global isGIF flag
+    
     if (typeof isGIF !== 'undefined' && isGIF) {
-        exportGIF(exportBtn)
-        } else {
-            exportImage();
-        }
+        // Show Modal for GIFs
+        exportModal.classList.add('show');
+    } else {
+        exportImage();
+    }
+});
+
+// Close Modal
+closeExportModal.addEventListener('click', () => {
+    exportModal.classList.remove('show');
+});
+
+// Option 1: Original
+exportOriginalBtn.addEventListener('click', () => {
+    exportModal.classList.remove('show');
+    exportGIF(document.getElementById('exportBtn'), false); // discordMode = false
+});
+
+// Option 2: Discord Mode
+exportDiscordBtn.addEventListener('click', () => {
+    exportModal.classList.remove('show');
+    exportGIF(document.getElementById('exportBtn'), true); // discordMode = true
 });
 
 function exportImage() {
@@ -30,9 +54,9 @@ function exportImage() {
     }
 }
 
-async function exportGIF(btn) {
+async function exportGIF(btn, discordMode = false) {
     const originalText = btn.textContent;
-    btn.textContent = "exporting. please wait";
+    btn.textContent = discordMode ? 'Compressing GIF...' : 'Generating GIF...';
     btn.disabled = true;
 
     // pause preview so it doesn't interfere with export
@@ -46,10 +70,17 @@ async function exportGIF(btn) {
     const blob = await response.blob();
     const localWorkerUrl = URL.createObjectURL(blob);
 
+    // DISCORD MODE SETTINGS
+    // Quality: 10 is default (good). 20-30 is lower quality but smaller size.
+    const qualitySetting = discordMode ? 20 : 10;
+    
+    // Target Width: 320px is safe for Discord (< 10MB usually)
+    const targetWidth = discordMode ? 320 : null;
+
     // start GIF export
     const gif = new GIF({
         workers: 2,
-        quality: 10,
+        quality: qualitySetting,
         workerScript: localWorkerUrl
     });
 
@@ -70,7 +101,7 @@ async function exportGIF(btn) {
         renderGifFrameToBuffer(frame, i);
 
         // draw meme elements on top
-        drawMeme(true);
+        drawMeme(true, targetWidth);
 
         // calculate delay with speed multiplier
         let delay = frame.delay || 100;
@@ -93,7 +124,7 @@ async function exportGIF(btn) {
         const url = URL.createObjectURL(blob);
         const createEl = document.createElement('a');
         createEl.href = url;
-        createEl.download = 'MadeWithOpenMemer.gif';
+        createEl.download = discordMode ? 'OpenMemer-Discord.gif' : 'OpenMemer-Caption.gif';
         createEl.click();
         createEl.remove();
         
