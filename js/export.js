@@ -1,4 +1,3 @@
-
 const exportModal = document.getElementById('exportModal');
 const closeExportModal = document.getElementById('closeExportModal');
 const exportOriginalBtn = document.getElementById('exportOriginalBtn');
@@ -7,7 +6,7 @@ const exportDiscordBtn = document.getElementById('exportDiscordBtn');
 // Main Export Button Click
 document.getElementById('exportBtn').addEventListener('click', () => {
     const exportBtn = document.getElementById('exportBtn');
-    
+
     if (typeof isGIF !== 'undefined' && isGIF) {
         // Show Modal for GIFs
         exportModal.classList.add('show');
@@ -40,7 +39,7 @@ function exportImage() {
             drawMeme(true);
         }
 
-        let canvasURL = canvas.toDataURL('image/png');  // get the data URL of the canvas content
+        let canvasURL = canvas.toDataURL('image/png'); // get the data URL of the canvas content
 
         // Check for empty/failed data URL (common with large canvases)
         if (canvasURL === 'data:,' || canvasURL.length < 50) {
@@ -54,6 +53,13 @@ function exportImage() {
 
         createEl.click(); // trigger the download
         createEl.remove(); // clean up the temporary element
+        // analytics
+        if (typeof trackExport === "function") {
+            trackExport({
+                meme_mode: currentMemeMode,
+                media_type: "image"
+            });
+        }
 
     } catch (e) {
         console.error("Export failed:", e);
@@ -81,7 +87,7 @@ async function exportGIF(btn, discordMode = false) {
 
     try {
         // pause preview so it doesn't interfere with export
-        if (typeof animationId !== 'undefined' && animationId){ 
+        if (typeof animationId !== 'undefined' && animationId) {
             cancelAnimationFrame(animationId);
         }
 
@@ -95,7 +101,7 @@ async function exportGIF(btn, discordMode = false) {
         // DISCORD MODE SETTINGS
         // Quality: 10 is default (good). 20-30 is lower quality but smaller size.
         const qualitySetting = discordMode ? 20 : 10;
-        
+
         // Target Width: 320px is safe for Discord (< 10MB usually)
         const targetWidth = discordMode ? 320 : null;
 
@@ -142,14 +148,21 @@ async function exportGIF(btn, discordMode = false) {
         }
 
         // handle finish gif export
-        gif.on('finished', function(blob) {
+        gif.on('finished', function (blob) {
             const url = URL.createObjectURL(blob);
             const createEl = document.createElement('a');
             createEl.href = url;
             createEl.download = discordMode ? 'OpenMemer-Compact.gif' : 'OpenMemer-Caption.gif';
             createEl.click();
             createEl.remove();
-            
+            // analytics
+            if (typeof trackExport === "function") {
+                trackExport({
+                    meme_mode: currentMemeMode,
+                    media_type: "gif",
+                    gif_mode: discordMode ? "compact" : "original"
+                });
+            }
             // Reset UI
             btn.textContent = originalText;
             btn.disabled = false;
@@ -171,16 +184,16 @@ async function exportGIF(btn, discordMode = false) {
         } else {
             alert("GIF Export failed! \n\n" + errorMsg);
         }
-        
+
         // Reset UI
         btn.textContent = originalText;
         btn.disabled = false;
-        
+
         // Restore display resolution
         if (typeof drawMeme === 'function') {
             drawMeme(false);
         }
-        
+
         // Resume animation loop
         if (typeof animateGif !== 'undefined') {
             lastFrameTime = performance.now();

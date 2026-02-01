@@ -15,6 +15,11 @@ let currentGifFrameIndex = 0; // current frame index
 let lastFrameTime = 0; // timestamp of last frame change
 let animationId = null; // ID for the animation frame
 
+// analytics visit event
+if (typeof trackVisit === "function") {
+  trackVisit();
+}
+
 fileInput.addEventListener('change', handleImage) // listen for file input changes
 function handleImage() {
     const file = fileInput.files[0]; // get the selected file
