@@ -441,6 +441,12 @@ function drawDemotivationalMeme(exportMode = false, targetWidth = null) {
     }
 }
 
+function drawFreeFormMeme(exportMode = false, targetWidth = null) {
+    const source = isGIF ? gifCanvas : image;
+    if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
+
+}
+
 function drawGifCaptionMeme(exportMode = false, targetWidth = null) {
     // Identify source 
     const source = isGIF ? gifCanvas : image;

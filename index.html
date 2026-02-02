@@ -120,6 +120,17 @@
     </div>
 
     <div id="canvasHolder">
+        <template id="freeform-template">
+            <input type="text" class="textInput" id="freeform-text" placeholder="Your text here">
+            <button id="freeform-make-text-button">Create Text</button>
+        </template>
+        <template id="added-text-template">
+            <div class="draggable-text-box">
+                <span class="drag-handle" aria-label="Drag Handle">&#x2630;</span>
+                <textarea class="draggable-textarea" rows="1">Sample Text</textarea>
+                <button class="delete-text-btn" aria-label="Delete Text">&times;</button>
+            </div>
+        </template>
         <canvas id="memeEditor" width="800" height="600"></canvas>
         <div id="uploadHint" class="upload-hint">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
