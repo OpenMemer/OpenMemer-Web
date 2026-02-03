@@ -149,6 +149,13 @@ modeBtns.forEach(btn => {
             outlineGroup.classList.add('hidden'); // No outline in this style
             subtitleGroup.classList.add('hidden');
             if(gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
+        
+        } else if (mode=='freeform'){
+            const $controls = document.querySelector('.controls');
+            const $freeFormTemplate = document.querySelector('#freeformTemplate').content.cloneNode(true);
+            $freeFormTemplate.querySelector('input').innerHTML = "";
+            $controls.insertAdjacentHTML('afterbegin', $freeFormTemplate.outerHTML);
+            $freeFormTemplate.querySelector("#reeform-make-text-button").addEventListener('click', createFreeFormText());
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
@@ -166,6 +173,10 @@ modeBtns.forEach(btn => {
         }
     });
 });
+
+function createFreeFormText() {
+    
+}
 
 async function loadChangelogs() {
     try {
