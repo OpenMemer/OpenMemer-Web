@@ -180,6 +180,11 @@ function createFreeFormText(e) {
     const textValue = document.querySelector('#freeform-text').value;
     document.querySelector('#freeform-text').value = '';
     if (textValue.trim() === "") return;
+
+    const $textItemTemplate = document.querySelector('#added-text-template').content.firstElementChild.cloneNode(true);
+    $textItemTemplate.querySelector('span.draggable-text-content').innerHTML = textValue;
+
+    $controls.prepend($textItemTemplate);
 }
 
 async function loadChangelogs() {

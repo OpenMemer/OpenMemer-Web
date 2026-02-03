@@ -125,9 +125,9 @@
             <button id="freeform-make-text-button">Create Text</button>
         </template>
         <template id="added-text-template">
-            <div class="draggable-text-box">
+            <div draggable="true" class="draggable-text-box">
                 <span class="drag-handle" aria-label="Drag Handle">&#x2630;</span>
-                <textarea class="draggable-textarea" rows="1">Sample Text</textarea>
+                <span class="draggable-text-content"></span>
                 <button class="delete-text-btn" aria-label="Delete Text">&times;</button>
             </div>
         </template>
