@@ -174,6 +174,8 @@ modeBtns.forEach(btn => {
     });
 });
 
+const droppedItems = [];
+
 function createFreeFormText(e) {
     
     const $controls = document.querySelector('.controls');
@@ -185,6 +187,41 @@ function createFreeFormText(e) {
     $textItemTemplate.querySelector('span.draggable-text-content').innerHTML = textValue;
 
     $controls.prepend($textItemTemplate);
+
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+
+    document.querySelectorAll(".draggable-text-box").forEach(item => {
+        item.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text", item.querySelector("span.draggable-text-content").innerHTML);
+        });
+    });
+
+    canvas.addEventListener("dragover", e => {
+    e.preventDefault();
+    });
+
+    canvas.addEventListener("drop", e => {
+    e.preventDefault();
+
+    const rect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+    droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
+
+    droppedItems.forEach(item => {
+        drawMeme(); // Redraw base meme
+        ctx.font = "1.25rem sans-serif";
+        ctx.fillStyle = "#000";
+        ctx.fillText(item.text, item.x + 125, item.y + 100);
+    });
+    });
+
 }
 
 async function loadChangelogs() {
