@@ -166,8 +166,7 @@ modeBtns.forEach(btn => {
             topText.style.display = 'none'; // Hide top text
             bottomText.style.display = 'none'; // Hide bottom text
 
-
-            const $controls = document.querySelector('.controls');
+            const $controls = document.querySelector('.horizGroupImpact');
             const $freeFormTemplate = document.querySelector('#freeform-template').content.cloneNode(true);
             console.log($freeFormTemplate.outerHTML);
             $controls.prepend($freeFormTemplate);
@@ -194,13 +193,14 @@ const droppedItems = [];
 
 function createFreeFormText(e) {
     
-    const $controls = document.querySelector('.controls');
+    const $controls = document.querySelector('.controls .added-text-box');
     const textValue = document.querySelector('#freeform-text').value;
     document.querySelector('#freeform-text').value = '';
     if (textValue.trim() === "") return;
 
     const $textItemTemplate = document.querySelector('#added-text-template').content.firstElementChild.cloneNode(true);
     $textItemTemplate.querySelector('span.draggable-text-content').innerHTML = textValue;
+    $textItemTemplate.querySelector('span.draggable-text-content').style.color = "white";
 
     $controls.prepend($textItemTemplate);
 

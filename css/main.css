@@ -188,6 +188,21 @@ body.adv-open {
     gap: 1rem;
 }
 
+#freeform-base { 
+    display: flex;
+    gap: 1rem;
+    flex-grow: initial;
+    width: 100%;
+
+}
+
+.added-text-box {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 #advBtn {
     padding: 10px 20px;
     font-size: 1rem;

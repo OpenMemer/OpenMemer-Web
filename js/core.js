@@ -444,7 +444,8 @@ function drawDemotivationalMeme(exportMode = false, targetWidth = null) {
 }
 
 function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) {
-    console.log("Drawing Freeform Meme");
+    if (hasImageBeenLoaded == false) return;
+
     const source = isGIF ? gifCanvas : image;
     if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
     const dpr = exportMode ? 1 : (window.devicePixelRatio || 1);
