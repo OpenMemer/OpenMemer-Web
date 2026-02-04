@@ -131,12 +131,13 @@ modeBtns.forEach(btn => {
         const subtitleGroup = document.getElementById('subtitleGroup');
         const gifSpeedGroup = document.getElementById('gifSpeedGroup');
 
-
         // 3. Clear Freeform elements if switching away
         const $freeform = document.querySelector('#freeform-base');
         if ($freeform) $freeform.remove();
         const $addedTexts = document.querySelectorAll('.draggable-text-box');
         $addedTexts.forEach(item => item.remove());
+        topText.style.display = ''; // Reset display
+        bottomText.style.display = ''; // Reset display
 
         // 4. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
@@ -149,6 +150,8 @@ modeBtns.forEach(btn => {
             subtitleGroup.classList.remove('hidden');
             if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         } else if (mode === 'gif-mode') {
+            topText.placeholder = "top text";
+            bottomText.placeholder = "bottom text";
             topText.placeholder = "caption";
             bottomText.style.display = 'none'; // Hide bottom text
 

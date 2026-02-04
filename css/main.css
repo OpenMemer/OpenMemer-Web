@@ -171,7 +171,7 @@ body.adv-open {
     text-align: center;
 }
 
-#exportBtn {
+#exportBtn, #freeform-make-text-button, .delete-text-btn {
     padding: 10px 20px;
     font-size: 1rem;
     border: 2px solid white;
