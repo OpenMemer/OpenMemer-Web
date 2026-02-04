@@ -197,6 +197,14 @@ function createFreeFormText(e) {
         });
     });
 
+    document.querySelectorAll(".delete-text-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+            removeItemAll(droppedItems, btn.parentElement.querySelector("span.draggable-text-content").innerHTML);
+            btn.parentElement.remove();
+            drawFreeFormMeme(false, null, droppedItems);
+        });
+    });
+
     canvas.addEventListener("dragover", e => {
         e.preventDefault();
     });
@@ -214,6 +222,18 @@ function createFreeFormText(e) {
         droppedItems.push({ x, y, text: e.dataTransfer.getData("text") });
         drawFreeFormMeme(false, null, droppedItems);
     });
+}
+
+function removeItemAll(arr, text) {
+  let i = 0;
+  while (i < arr.length) {
+    if (arr[i].text === text) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
 }
 
 async function loadChangelogs() {
