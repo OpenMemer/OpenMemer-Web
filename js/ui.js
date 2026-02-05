@@ -205,7 +205,6 @@ function createFreeFormText(e) {
     $controls.prepend($textItemTemplate);
 
     const canvas = document.querySelector("canvas");
-    const ctx = canvas.getContext("2d");
 
     document.querySelectorAll(".draggable-text-box").forEach(item => {
         item.addEventListener("dragstart", e => {
@@ -234,7 +233,7 @@ function createFreeFormText(e) {
         const x = (e.clientX - rect.left) * dpr;
         const y = (e.clientY - rect.top) * dpr;
 
-
+        //Division by canvas width/height to normalize position and it's back to it's original form in drawFreeFormMeme
         droppedItems.push({ x: x / canvas.width, y: y / canvas.height, text: e.dataTransfer.getData("text") });
         drawFreeFormMeme(false, null, droppedItems);
     });

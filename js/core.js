@@ -456,11 +456,14 @@ function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) 
     drawBaseImage(exportMode, targetWidth);
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'black';
+
+    //Used to get a more accurate representation of where the user drops their text
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     if (items) {
         const scale = canvas.width / source.width;
+        // Used to get text positioning correctly
         ctx.save();
         ctx.scale(scale, scale);
 
