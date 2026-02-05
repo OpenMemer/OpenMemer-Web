@@ -330,7 +330,9 @@ function drawMeme(exportMode = false, targetWidth = null) {
         drawDemotivationalMeme(exportMode, targetWidth);
     } else if (currentMemeMode === 'gif-mode') {
         drawGifCaptionMeme(exportMode, targetWidth);
-    } 
+    } else if (currentMemeMode === 'freeform') {
+        drawFreeFormMeme(exportMode, targetWidth, droppedItems);
+    }
     else {
         drawImpactMeme(exportMode, targetWidth);
     }
@@ -438,6 +440,47 @@ function drawDemotivationalMeme(exportMode = false, targetWidth = null) {
             ctx.fillText(line, centerX, currentY);
             currentY += subtitleSize * 1.3;
         });
+    }
+}
+
+function drawFreeFormMeme(exportMode = false, targetWidth = null, items = null) {
+    if (hasImageBeenLoaded == false) return;
+
+    const source = isGIF ? gifCanvas : image;
+    if (!source || (source instanceof HTMLImageElement && !source.complete) || (source instanceof HTMLCanvasElement && source.width === 0)) return;
+
+    const fontSizeValue = fontSizeInput.value / 100; // convert percentage to fraction
+    const strokeWidthValue = outlineWidthInput.value / 100; // convert percentage to fraction
+    const fontSize = source.width * fontSizeValue;
+
+    drawBaseImage(exportMode, targetWidth);
+    ctx.fillStyle = 'white';
+    ctx.strokeStyle = 'black';
+
+    //Used to get a more accurate representation of where the user drops their text
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    if (items) {
+        const scale = canvas.width / source.width;
+        // Used to get text positioning correctly
+        ctx.save();
+        ctx.scale(scale, scale);
+
+        ctx.lineWidth = fontSize * strokeWidthValue;
+        ctx.font = `${fontSize}px IMPACT, Anton, sans-serif`;
+
+
+        items.forEach(item => {
+
+        const x = item.x * source.width; // convert relative x to absolute
+        const y = item.y * source.height; // convert relative y to absolute
+        ctx.strokeText(item.text, x, y); 
+        ctx.fillText(item.text, x, y);   
+    });
+
+    ctx.restore();
+
     }
 }
 

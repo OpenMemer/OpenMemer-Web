@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- FORK TO OWN REPO-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
@@ -98,6 +98,17 @@
             </svg>
 
         </button>
+        <button class="mode-btn" data-mode="freeform" aria-label="Freeform Mode">
+            <!-- Freeform Icon (Inline SVG) -->
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <!-- outer frame -->
+                <rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="none" stroke="currentColor"
+                    stroke-width="1" />
+
+                <!-- inner image -->
+                <rect x="6" y="5" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1" />
+            </svg>
+        </button>
         <button class="mode-btn" data-mode="demotivational" aria-label="Demotivational Mode">
             <!-- Demotivational Icon (Inline SVG) -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -131,6 +142,20 @@
     </div>
 
     <div id="canvasHolder">
+        <template id="freeform-template">
+            <div id="freeform-base">
+                <input type="text" class="textInput" id="freeform-text" placeholder="Your text here">
+                <button id="freeform-make-text-button">Create Text</button>
+            </div>
+
+        </template>
+        <template id="added-text-template">
+            <div draggable="true" class="draggable-text-box">
+                <span class="drag-handle" aria-label="Drag Handle" style="color:white">&#x2630;</span>
+                <span class="draggable-text-content"></span>
+                <button class="delete-text-btn" aria-label="Delete Text">&times;</button>
+            </div>
+        </template>
         <canvas id="memeEditor" width="800" height="600"></canvas>
         <div id="uploadHint" class="upload-hint">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
@@ -144,6 +169,9 @@
         <input type="file" id="imageLoader" name="imageLoader" accept="image/*" hidden />
     </div>
     <div class="controls">
+            <div class="added-text-box">
+                
+            </div>
         <div class="horizGroupImpact">
             <input type="text" class="textInput" id="topText" placeholder="top text">
             <input type="text" class="textInput" id="bottomText" placeholder="bottom text">

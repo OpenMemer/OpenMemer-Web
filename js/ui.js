@@ -131,7 +131,15 @@ modeBtns.forEach(btn => {
         const subtitleGroup = document.getElementById('subtitleGroup');
         const gifSpeedGroup = document.getElementById('gifSpeedGroup');
 
-        // 3. Update Input Placeholders (UX improvement)
+        // 3. Clear Freeform elements if switching away
+        const $freeform = document.querySelector('#freeform-base');
+        if ($freeform) $freeform.remove();
+        const $addedTexts = document.querySelectorAll('.draggable-text-box');
+        $addedTexts.forEach(item => item.remove());
+        topText.style.display = ''; // Reset display
+        bottomText.style.display = ''; // Reset display
+
+        // 4. Update Input Placeholders (UX improvement)
         if (mode === 'demotivational') {
             topText.placeholder = "title";
             bottomText.placeholder = "subtitle";
@@ -142,6 +150,8 @@ modeBtns.forEach(btn => {
             subtitleGroup.classList.remove('hidden');
             if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         } else if (mode === 'gif-mode') {
+            topText.placeholder = "top text";
+            bottomText.placeholder = "bottom text";
             topText.placeholder = "caption";
             bottomText.style.display = 'none'; // Hide bottom text
 
@@ -149,6 +159,18 @@ modeBtns.forEach(btn => {
             outlineGroup.classList.add('hidden'); // No outline in this style
             subtitleGroup.classList.add('hidden');
             if(gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
+        
+        } else if (mode=='freeform'){
+
+            droppedItems.length = 0; // Clear dropped items
+            topText.style.display = 'none'; // Hide top text
+            bottomText.style.display = 'none'; // Hide bottom text
+
+            const $controls = document.querySelector('.horizGroupImpact');
+            const $freeFormTemplate = document.querySelector('#freeform-template').content.cloneNode(true);
+            console.log($freeFormTemplate.outerHTML);
+            $controls.prepend($freeFormTemplate);
+            document.querySelector("#freeform-make-text-button").addEventListener('click', createFreeFormText);
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
@@ -160,12 +182,74 @@ modeBtns.forEach(btn => {
             if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         }
 
-        // 4. Tell Core to switch modes
+        // 5. Tell Core to switch modes
         if (typeof setMemeMode === 'function') {
             setMemeMode(mode);
         }
     });
 });
+
+const droppedItems = [];
+
+function createFreeFormText(e) {
+    
+    const $controls = document.querySelector('.controls .added-text-box');
+    const textValue = document.querySelector('#freeform-text').value;
+    document.querySelector('#freeform-text').value = '';
+    if (textValue.trim() === "") return;
+
+    const $textItemTemplate = document.querySelector('#added-text-template').content.firstElementChild.cloneNode(true);
+    $textItemTemplate.querySelector('span.draggable-text-content').innerHTML = textValue;
+    $textItemTemplate.querySelector('span.draggable-text-content').style.color = "white";
+
+    $controls.prepend($textItemTemplate);
+
+    const canvas = document.querySelector("canvas");
+
+    document.querySelectorAll(".draggable-text-box").forEach(item => {
+        item.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text", item.querySelector("span.draggable-text-content").innerHTML);
+        });
+    });
+
+    document.querySelectorAll(".delete-text-btn").forEach(btn => {
+        btn.addEventListener("click", e => {
+            removeItemAll(droppedItems, btn.parentElement.querySelector("span.draggable-text-content").innerHTML);
+            btn.parentElement.remove();
+            drawFreeFormMeme(false, null, droppedItems);
+        });
+    });
+
+    canvas.addEventListener("dragover", e => {
+        e.preventDefault();
+    });
+
+    canvas.addEventListener("drop", e => {
+        e.preventDefault();
+
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+
+        const x = (e.clientX - rect.left) * dpr;
+        const y = (e.clientY - rect.top) * dpr;
+
+        //Division by canvas width/height to normalize position and it's back to it's original form in drawFreeFormMeme
+        droppedItems.push({ x: x / canvas.width, y: y / canvas.height, text: e.dataTransfer.getData("text") });
+        drawFreeFormMeme(false, null, droppedItems);
+    });
+}
+
+function removeItemAll(arr, text) {
+  let i = 0;
+  while (i < arr.length) {
+    if (arr[i].text === text) {
+      arr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return arr;
+}
 
 async function loadChangelogs() {
     try {
