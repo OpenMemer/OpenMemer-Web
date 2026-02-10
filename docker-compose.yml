@@ -1,0 +1,8 @@
+services:
+  openmemer:
+    build: .
+    image: openmemer
+    container_name: openmemer
+    ports:
+      - "8080:80"
+    restart: unless-stopped

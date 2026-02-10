@@ -42,6 +42,17 @@ For that to be accomplished, I want to add the following:
 Maybe eventually, video support can also get added.
 This is definitely not planned, but could potentially come in the future.
 
+## Self-Hosting
+
+You can easily self-host OpenMemer using Docker.
+
+1. Clone the repository
+2. Run with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+3. Visit `http://localhost:8080`
+
 ## Support
 
 For bugs, feature requests, or contributions, feel free to open an issue on GitHub.
