@@ -30,7 +30,32 @@ function addCustomText() { // Function to add a new custom text layer
     selectCustomLayer(layer.id);
 }
 
-document.getElementById('customAddText').addEventListener('click', addCustomText);
-function drawCustomMeme(exportMode = false, targetWidth = null) {
-       drawBaseImage(exportMode, targetWidth);
-   }
+document.getElementById('customAddText').addEventListener('click', addCustomText); // Event listener for the "add text" button in custom mode
+
+function drawCustomMeme(exportMode = false, targetWidth = null) { // you know the drill
+    const source = isGIF ? gifCanvas : image;
+    if (!source || !source.width || !source.height) return;
+
+    drawBaseImage(exportMode, targetWidth);
+
+    const scale = canvas.width / source.width;
+
+    ctx.save();
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    for (const layer of customLayers) {
+        const fontSize = source.width * layer.size;
+
+        ctx.font = `${fontSize}px Impact, sans-serif`;
+        ctx.fillStyle = layer.color;
+        ctx.fillText(
+            layer.text,
+            layer.x * source.width,
+            layer.y * source.height
+        );
+    }
+
+    ctx.restore();
+}
