@@ -111,6 +111,31 @@ document.getElementById('customOutline').addEventListener('input', function (eve
     drawMeme();
 });
 
+function getCustomTextLayout(layer, source) {
+    const fontSize = source.width * layer.size;
+    const lines = layer.text.split('\n');
+    const lineHeight = fontSize * 1.2;
+
+    ctx.save();
+    ctx.font = customFontStyle(layer, fontSize);
+
+    // Leave a small clickable area even when the text is empty.
+    const width = Math.max(
+        fontSize,
+        ...lines.map(line => ctx.measureText(line).width)
+    );
+
+    ctx.restore();
+
+    return {
+        lines,
+        fontSize,
+        lineHeight,
+        width,
+        height: fontSize + (lines.length - 1) * lineHeight
+    };
+}
+
 function drawCustomMeme(exportMode = false, targetWidth = null) { // you know the dril
     const source = isGIF ? gifCanvas : image;
     if (!source || !source.width || !source.height) return;
@@ -125,46 +150,47 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
     ctx.textBaseline = 'middle';
 
     for (const layer of customLayers) {
-        const fontSize = source.width * layer.size;
+    const layout = getCustomTextLayout(layer, source);
+    const centerX = layer.x * source.width;
+    const centerY = layer.y * source.height;
 
-        ctx.font = customFontStyle(layer, fontSize);
-        ctx.fillStyle = layer.color;
+    ctx.font = customFontStyle(layer, layout.fontSize);
+    ctx.fillStyle = layer.color;
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = layout.fontSize * layer.outline;
+    ctx.lineJoin = 'round';
+
+    // Position the first line so the group stays centered on the layer.
+    const firstLineY = centerY - (layout.lines.length - 1) * layout.lineHeight / 2;
+
+    layout.lines.forEach((line, index) => {
+        const lineY = firstLineY + index * layout.lineHeight;
+
         if (layer.outline > 0) {
-            ctx.strokeStyle = '#000000';
-            ctx.lineWidth = fontSize * layer.outline;
-            ctx.lineJoin = 'round';
-            ctx.strokeText(
-                layer.text,
-                layer.x * source.width,
-                layer.y * source.height
-            );
+            ctx.strokeText(line, centerX, lineY);
         }
-        ctx.fillText(
-            layer.text,
-            layer.x * source.width,
-            layer.y * source.height
+
+        ctx.fillText(line, centerX, lineY);
+    });
+
+    if (!exportMode && layer.id === selectedCustomId) {
+        const padding = layout.fontSize * 0.1;
+
+        ctx.save();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = Math.max(1, source.width * 0.002);
+        ctx.setLineDash([layout.fontSize * 0.15, layout.fontSize * 0.1]);
+
+        ctx.strokeRect(
+            centerX - layout.width / 2 - padding,
+            centerY - layout.height / 2 - padding,
+            layout.width + padding * 2,
+            layout.height + padding * 2
         );
-        if (!exportMode && layer.id === selectedCustomId) {
-            const textWidth = ctx.measureText(layer.text).width;
-            const centerX = layer.x * source.width;
-            const centerY = layer.y * source.height;
-            const padding = fontSize * 0.1;
 
-            ctx.save();
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = Math.max(1, source.width * 0.002);
-            ctx.setLineDash([fontSize * 0.15, fontSize * 0.1]);
-
-            ctx.strokeRect(
-                centerX - textWidth / 2 - padding,
-                centerY - fontSize / 2 - padding,
-                textWidth + padding * 2,
-                fontSize + padding * 2
-            );
-
-            ctx.restore();
-        }
+        ctx.restore();
     }
+}
 
     ctx.restore();
 }
@@ -181,22 +207,16 @@ function getCustomMousePosition(event) { // Function to get the mouse position r
     };
 }
 
-function customLayerContainsPoint(layer, point, source) { // this function checks if a given point is within the bounds of a custom text layer
-    const fontSize = source.width * layer.size; // font size calculator
-
-    ctx.save(); // duh
-    ctx.font = customFontStyle(layer, fontSize);
-    const textWidth = ctx.measureText(layer.text).width;
-    ctx.restore();
-
+function customLayerContainsPoint(layer, point, source) {
+    const layout = getCustomTextLayout(layer, source);
     const centerX = layer.x * source.width;
     const centerY = layer.y * source.height;
 
-    return ( // Check if the point is within the bounding box of the text layer
-        point.x >= centerX - textWidth / 2 &&
-        point.x <= centerX + textWidth / 2 &&
-        point.y >= centerY - fontSize / 2 &&
-        point.y <= centerY + fontSize / 2
+    return (
+        point.x >= centerX - layout.width / 2 &&
+        point.x <= centerX + layout.width / 2 &&
+        point.y >= centerY - layout.height / 2 &&
+        point.y <= centerY + layout.height / 2
     );
 }
 canvas.addEventListener('mousedown', function (event) { // when you click on the canvas this function checks if you clicked on text
