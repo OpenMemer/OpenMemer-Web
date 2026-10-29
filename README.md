@@ -20,7 +20,7 @@ This is stuff I have to do in order to get the minimum viable product done.
 - [X] Demotivational poster mode
 - [X] GIF / animated caption support
 - [X] Drag 'n drop mode
-- [ ] Drag-to-position text
+- [X] Drag-to-position text
 
 
 ## Stretch Goals
