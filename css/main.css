@@ -794,7 +794,7 @@ button:active {
 }
 
 #customTextMenu {
-    max-height: 10rem;
+    max-height: 14.5rem;
     overflow-y: auto;
 }
 
@@ -943,8 +943,5 @@ button:active {
         gap: 1rem;
     }
 
-    /* closed advanced panel should not create an extra gap. */
-    #advancedSettingsHandler:not(.visible) {
-        display: none;
-    }
+
 }
