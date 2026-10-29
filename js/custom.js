@@ -1,4 +1,7 @@
 const customLayers = []; // Array to hold custom text layers
+
+const customTextDropdown = document.getElementById('customTextDropdown');
+const customTextMenu = document.getElementById('customTextMenu');
 let selectedCustomId = null; // ID of the currently selected custom text layer
 let nextCustomId = 1; // Counter for generating unique IDs for custom text layers
 
@@ -14,6 +17,8 @@ function selectCustomLayer(id) { // Function to select a custom text layer by it
     document.getElementById('customColor').value = layer ? layer.color : '#ffffff';
     document.getElementById('customOutline').value = layer ? layer.outline * 100 : 3;
     document.getElementById('customFont').value = layer ? layer.font : 'impact';
+    refreshCustomLayerList();
+    
     if (currentMemeMode === 'custom') {
         drawMeme();
     }
@@ -56,13 +61,17 @@ function customFontStyle(layer, fontSize) {
     const weight = layer.font === 'futura' ? 'bold ' : '';
     return `${weight}${fontSize}px ${customFontFamily(layer)}`;
 }
-document.getElementById('customAddText').addEventListener('click', addCustomText); // Event listener for the "add text" button in custom mode
+document.getElementById('customAddText').addEventListener('click', function () {
+    addCustomText();
+    setCustomTextMenuOpen(false);
+}); // Event listener for the "add text" button in custom mode
 
 document.getElementById('customText').addEventListener('input', function (event) { // Event listener for the custom text input field
     const layer = selectedCustomLayer(); // Get the currently selected custom text layer
     if (!layer) return; // If no layer is selected, exit the function
 
     layer.text = event.target.value; // Update the text of the selected layer with the input value
+    refreshCustomLayerList();
     drawMeme();
 });
 
@@ -111,15 +120,49 @@ document.getElementById('customOutline').addEventListener('input', function (eve
     drawMeme();
 });
 
+function setCustomTextMenuOpen(open) {
+    customTextMenu.hidden = !open;
+    customTextDropdown.setAttribute('aria-expanded', String(open));
+}
+
+customTextDropdown.addEventListener('click', function () {
+    setCustomTextMenuOpen(customTextMenu.hidden);
+});
+
+document.getElementById('customChangeImage').addEventListener('click', function () {
+    fileInput.click();
+});
+
 function getCustomTextLayout(layer, source) {
     const fontSize = source.width * layer.size;
-    const lines = layer.text.split('\n');
     const lineHeight = fontSize * 1.2;
+    const maxWidth = source.width * 0.9;
+    const lines = [];
 
     ctx.save();
     ctx.font = customFontStyle(layer, fontSize);
 
-    // Leave a small clickable area even when the text is empty.
+    // Keep the line breaks the user typed.
+    const paragraphs = layer.text.split('\n');
+
+    for (const paragraph of paragraphs) {
+        const words = paragraph.split(' ');
+        let currentLine = '';
+
+        for (const word of words) {
+            const candidate = currentLine ? `${currentLine} ${word}` : word;
+
+            if (currentLine && ctx.measureText(candidate).width > maxWidth) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = candidate;
+            }
+        }
+
+        lines.push(currentLine);
+    }
+
     const width = Math.max(
         fontSize,
         ...lines.map(line => ctx.measureText(line).width)
@@ -266,3 +309,28 @@ window.addEventListener('mousemove', function (event) { // event listener for mo
 window.addEventListener('mouseup', function () { // event listener for mouse release to stop dragging custom text layers
     customDrag = null;
 });
+
+
+function refreshCustomLayerList() {
+    const list = document.getElementById('customLayerList');
+    list.replaceChildren();
+
+    customTextDropdown.textContent = `text (${customLayers.length}) ▼`;
+
+    customLayers.forEach((layer, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+
+        // Show the first line as the layer's label.
+        const firstLine = layer.text.split('\n')[0].trim();
+        button.textContent = `${index + 1}. ${firstLine || 'empty text'}`;
+        button.setAttribute('aria-pressed', String(layer.id === selectedCustomId));
+
+        button.addEventListener('click', function () {
+            selectCustomLayer(layer.id);
+            setCustomTextMenuOpen(false);
+        });
+
+        list.appendChild(button);
+    });
+}

@@ -748,3 +748,42 @@ button:active {
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
 }
+
+
+/* Custom Mode Styles */
+.custom-toolbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+#customTextDropdown,
+#customChangeImage {
+    width: 100%;
+}
+
+#customTextMenu {
+    position: absolute;
+    z-index: 10;
+}
+
+#customTextMenu[hidden] {
+    display: none;
+}
+
+#customTextMenu {
+    max-height: 16rem;
+    overflow-y: auto;
+}
+
+#customLayerList button {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

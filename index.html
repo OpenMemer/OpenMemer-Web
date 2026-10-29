@@ -206,7 +206,19 @@
             </div>
         </div>
         <section id="customControls" class="hidden">
-            <button id="customAddText" type="button">+ add text</button>
+            <div class="custom-toolbar">
+                <div class="custom-dropdown">
+                    <button id="customTextDropdown" type="button" aria-controls="customTextMenu"
+                        aria-expanded="false">text ▼</button>
+
+                    <div id="customTextMenu" hidden>
+                        <button id="customAddText" type="button">+ add text</button>
+                        <div id="customLayerList"></div>
+                    </div>
+                </div>
+
+                <button id="customChangeImage" type="button">change image</button>
+            </div>
             <label for="customText">Text</label>
             <textarea id="customText"></textarea>
             <label for="customSize">Size (%)</label>
