@@ -32,7 +32,7 @@ body.adv-open {
 
 /* GitHub button (top-left) */
 #githubBtn {
-    position: fixed;
+    position: absolute;
     top: 1rem;
     left: 1rem;
     display: inline-flex;
@@ -318,7 +318,7 @@ button:active {
 }
 
 .version-indicator {
-    position: fixed;
+    position: absolute;
     top: 1rem;
     right: 1rem;
     color: #444;
