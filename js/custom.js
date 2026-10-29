@@ -10,8 +10,10 @@ function selectedCustomLayer() { // Returns the currently selected custom text l
 }
 
 function selectCustomLayer(id) { // Function to select a custom text layer by its ID
+    if (id !== selectedCustomId) closeCustomMobileEditor();
     selectedCustomId = id;
     const layer = selectedCustomLayer(); // Get the currently selected custom text layer
+    document.body.classList.toggle('custom-has-selection', Boolean(layer));
     document.getElementById('customProperties').classList.toggle('hidden', !layer);
     document.getElementById('customText').value = layer ? layer.text : ''; // Update the textarea with the text of the selected layer, or clear it if no layer is selected
     document.getElementById('customSize').value = layer ? layer.size * 100 : 8;
@@ -25,12 +27,45 @@ function selectCustomLayer(id) { // Function to select a custom text layer by it
     }
 }
 
+function getCustomStartPosition() {
+    // Keep the existing center position on desktop.
+    if (!window.matchMedia('(max-width: 600px)').matches) {
+        return {
+            x: 0.5,
+            y: 0.5
+        };
+    }
+
+    const canvasRect = canvas.getBoundingClientRect();
+    const controlsRect = document.querySelector('.controls').getBoundingClientRect();
+
+    // Find the part of the image visible above the controls.
+    const visibleTop = Math.max(canvasRect.top, 0);
+    const visibleBottom = Math.min(canvasRect.bottom, window.innerHeight, controlsRect.top);
+
+    // If no image area is visible, fall back to its center.
+    if (visibleBottom <= visibleTop || canvasRect.width <= 0 || canvasRect.height <= 0) {
+        return {
+            x: 0.5,
+            y: 0.5
+        };
+    }
+
+    const screenY = (visibleTop + visibleBottom) / 2;
+
+    return {
+        x: 0.5,
+        y: (screenY - canvasRect.top) / canvasRect.height
+    };
+}
+
 function addCustomText() { // Function to add a new custom text layer
+    const start = getCustomStartPosition();
     const layer = {
         id: nextCustomId++,
         text: 'your text',
-        x: 0.5,
-        y: 0.5,
+        x: start.x,
+        y: start.y,
         font: 'impact',
         size: 0.08,
         color: '#ffffff',
@@ -242,9 +277,10 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
 
     ctx.restore();
     if (!exportMode) {
-    updateCustomDeleteButton();
-    updateCustomTouchTargets(source);
-}
+        updateCustomDeleteButton();
+        updateCustomTouchTargets(source);
+        updateCustomMobileHandles(source);
+    }
 }
 
 let customDrag = null; // Object to hold the state of the currently dragged custom text layer
@@ -440,6 +476,63 @@ canvas.addEventListener('keydown', function (event) {
     drawMeme();
 });
 
+let customScrollFrame = null;
+let customScrollTime = null;
+
+function moveCustomTextWithFinger() {
+    if (!customTouchDrag || currentMemeMode !== 'custom') return;
+
+    const layer = customLayers.find(item => item.id === customTouchDrag.id);
+    const source = isGIF ? gifCanvas : image;
+    if (!layer || !source.width || !source.height) return;
+
+    const point = getCustomMousePosition({
+        clientX: customTouchDrag.clientX,
+        clientY: customTouchDrag.clientY
+    });
+
+    layer.x = Math.max(0, Math.min(1, (point.x - customTouchDrag.offsetX) / source.width));
+    layer.y = Math.max(0, Math.min(1, (point.y - customTouchDrag.offsetY) / source.height));
+
+    drawMeme();
+}
+
+function scrollWhileDragging(time) {
+    if (!customTouchDrag || currentMemeMode !== 'custom') {
+        customScrollFrame = null;
+        customScrollTime = null;
+        return;
+    }
+
+    const elapsed = customScrollTime === null ?
+        0 :
+        Math.min((time - customScrollTime) / 1000, 0.05);
+
+    customScrollTime = time;
+
+    const controls = document.querySelector('.controls').getBoundingClientRect();
+    const bottom = Math.min(window.innerHeight, controls.top);
+    const edgeSize = Math.min(80, bottom / 3);
+    const fingerY = customTouchDrag.clientY;
+
+    let speed = 0;
+
+    if (edgeSize > 0 && fingerY < edgeSize) {
+        speed = -300 * Math.min(1, (edgeSize - fingerY) / edgeSize);
+    } else if (edgeSize > 0 && fingerY > bottom - edgeSize) {
+        speed = 300 * Math.min(1, (fingerY - (bottom - edgeSize)) / edgeSize);
+    }
+
+    const previousScroll = window.scrollY;
+    window.scrollBy(0, speed * elapsed);
+
+    // The canvas has moved on screen, so update the text's image position.
+    if (window.scrollY !== previousScroll) {
+        moveCustomTextWithFinger();
+    }
+
+    customScrollFrame = requestAnimationFrame(scrollWhileDragging);
+}
 const customTouchLayer = document.getElementById('customTouchLayer');
 const customTouchTargets = new Map();
 let customTouchDrag = null;
@@ -497,7 +590,9 @@ customTouchLayer.addEventListener('pointerdown', function (event) {
         id: layer.id,
         pointerId: event.pointerId,
         offsetX: point.x - layer.x * source.width,
-        offsetY: point.y - layer.y * source.height
+        offsetY: point.y - layer.y * source.height,
+        clientX: event.clientX,
+        clientY: event.clientY
     };
 
     target.setPointerCapture(event.pointerId);
@@ -508,23 +603,111 @@ customTouchLayer.addEventListener('pointerdown', function (event) {
 customTouchLayer.addEventListener('pointermove', function (event) {
     if (!customTouchDrag || event.pointerId !== customTouchDrag.pointerId) return;
 
-    const layer = customLayers.find(item => item.id === customTouchDrag.id);
-    const source = isGIF ? gifCanvas : image;
-    if (!layer || !source.width || !source.height) return;
+    customTouchDrag.clientX = event.clientX;
+    customTouchDrag.clientY = event.clientY;
+    moveCustomTextWithFinger();
 
-    const point = getCustomMousePosition(event);
-
-    layer.x = Math.max(0, Math.min(1, (point.x - customTouchDrag.offsetX) / source.width));
-    layer.y = Math.max(0, Math.min(1, (point.y - customTouchDrag.offsetY) / source.height));
-
-    drawMeme();
+    if (customScrollFrame === null) {
+        customScrollTime = null;
+        customScrollFrame = requestAnimationFrame(scrollWhileDragging);
+    }
 });
 
 function endCustomTouchDrag(event) {
-    if (customTouchDrag && event.pointerId === customTouchDrag.pointerId) {
-        customTouchDrag = null;
+    if (!customTouchDrag || event.pointerId !== customTouchDrag.pointerId) return;
+
+    customTouchDrag = null;
+
+    if (customScrollFrame !== null) {
+        cancelAnimationFrame(customScrollFrame);
+        customScrollFrame = null;
     }
+
+    customScrollTime = null;
 }
 
 customTouchLayer.addEventListener('pointerup', endCustomTouchDrag);
 customTouchLayer.addEventListener('pointercancel', endCustomTouchDrag);
+
+// Mobile editing uses the same textarea and layer properties as desktop.
+const customTextInput = document.getElementById('customText');
+const customEditText = document.getElementById('customEditText');
+const customResizeText = document.getElementById('customResizeText');
+let customResizeDrag = null;
+
+function closeCustomMobileEditor() {
+    if (!document.body.classList.contains('custom-editing')) return;
+    document.body.classList.remove('custom-editing');
+    if (document.activeElement === document.getElementById('customText')) document.activeElement.blur();
+    document.documentElement.style.removeProperty('--custom-keyboard-offset');
+}
+
+function updateCustomKeyboardOffset() {
+    if (!document.body.classList.contains('custom-editing')) return;
+    const viewport = window.visualViewport;
+    const offset = viewport ? Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop) : 0;
+    document.documentElement.style.setProperty('--custom-keyboard-offset', `${offset}px`);
+}
+
+customEditText.addEventListener('click', function () {
+    if (!selectedCustomLayer()) return;
+    document.body.classList.add('custom-editing');
+    customTextInput.focus();
+    updateCustomKeyboardOffset();
+});
+customTextInput.addEventListener('blur', closeCustomMobileEditor);
+document.addEventListener('pointerdown', function (event) {
+    if (document.body.classList.contains('custom-editing') && !customTextInput.contains(event.target)) {
+        closeCustomMobileEditor();
+    }
+}, true);
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateCustomKeyboardOffset);
+    window.visualViewport.addEventListener('scroll', updateCustomKeyboardOffset);
+}
+
+function updateCustomMobileHandles(source) {
+    const layer = selectedCustomLayer();
+    const visible = currentMemeMode === 'custom' && layer && hasImageBeenLoaded &&
+        window.matchMedia('(max-width: 600px)').matches;
+    customEditText.hidden = !visible;
+    customResizeText.hidden = !visible;
+    if (!visible) return;
+
+    const layout = getCustomTextLayout(layer, source);
+    const padding = layout.fontSize * 0.1;
+    const right = canvas.offsetLeft + (layer.x * source.width + layout.width / 2 + padding) / source.width * canvas.clientWidth;
+    const top = canvas.offsetTop + (layer.y * source.height - layout.height / 2 - padding) / source.height * canvas.clientHeight;
+    const bottom = canvas.offsetTop + (layer.y * source.height + layout.height / 2 + padding) / source.height * canvas.clientHeight;
+
+    for (const [button, y] of [[customEditText, top], [customResizeText, bottom]]) {
+        const radius = button.offsetWidth / 2;
+        button.style.left = `${Math.max(radius, Math.min(canvasHolder.clientWidth - radius, right))}px`;
+        button.style.top = `${Math.max(radius, Math.min(canvasHolder.clientHeight - radius, y))}px`;
+    }
+}
+
+customResizeText.addEventListener('pointerdown', function (event) {
+    const layer = selectedCustomLayer();
+    if (!layer || currentMemeMode !== 'custom') return;
+    event.preventDefault();
+    customResizeDrag = { pointerId: event.pointerId, id: layer.id, x: event.clientX, y: event.clientY, size: layer.size };
+    customResizeText.setPointerCapture(event.pointerId);
+});
+
+customResizeText.addEventListener('pointermove', function (event) {
+    if (!customResizeDrag || event.pointerId !== customResizeDrag.pointerId) return;
+    const layer = customLayers.find(item => item.id === customResizeDrag.id);
+    if (!layer || !canvas.clientWidth) return;
+    const distance = ((event.clientX - customResizeDrag.x) + (event.clientY - customResizeDrag.y)) / 2;
+    layer.size = Math.max(0.01, Math.min(1, customResizeDrag.size + distance / canvas.clientWidth));
+    document.getElementById('customSize').value = Math.round(layer.size * 1000) / 10;
+    drawMeme();
+});
+
+function endCustomResize(event) {
+    if (customResizeDrag && event.pointerId === customResizeDrag.pointerId) customResizeDrag = null;
+}
+customResizeText.addEventListener('pointerup', endCustomResize);
+customResizeText.addEventListener('pointercancel', endCustomResize);
+customResizeText.addEventListener('lostpointercapture', endCustomResize);

@@ -128,6 +128,7 @@ modeBtns.forEach(btn => {
         // 2. Get the mode from the HTML (data-mode="...")
         const mode = btn.dataset.mode;
         const isCustom = (mode === 'custom');
+        if (!isCustom) closeCustomMobileEditor();
         if (isCustom) {
             advancedSettingsHandler.classList.remove('visible');
             document.body.classList.remove('adv-open');
