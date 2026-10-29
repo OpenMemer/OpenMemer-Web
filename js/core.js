@@ -339,6 +339,9 @@ function drawMeme(exportMode = false, targetWidth = null) {
 }
 function setMemeMode(mode) {
     currentMemeMode = mode;
+    if (mode !== 'custom') {
+    document.getElementById('customDeleteText').hidden = true;
+}
     if (hasImageBeenLoaded) {
         drawMeme();
     }

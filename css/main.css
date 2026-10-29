@@ -787,3 +787,39 @@ button:active {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+#customDeleteText {
+    position: absolute;
+    z-index: 5;
+
+    /* Match the app's black and white buttons */
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: black;
+    color: white;
+
+    /* Center the X */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+
+    /* Center the circle on the text box's top-left corner */
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+#customDeleteText[hidden] {
+    display: none;
+}
+
+/* Keep the button centered when the app's general active style applies */
+#customDeleteText:active {
+    transform: translate(-50%, -50%);
+}

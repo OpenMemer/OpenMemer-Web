@@ -154,6 +154,7 @@
 
     <div id="canvasHolder">
         <canvas id="memeEditor" width="800" height="600"></canvas>
+        <button id="customDeleteText" type="button" aria-label="Delete selected text" hidden>×</button>
         <div id="uploadHint" class="upload-hint">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -219,24 +220,25 @@
 
                 <button id="customChangeImage" type="button">change image</button>
             </div>
-            <label for="customText">Text</label>
-            <textarea id="customText"></textarea>
-            <label for="customSize">Size (%)</label>
-            <input id="customSize" type="number" min="1" max="100" value="8">
-            <label for="customFont">Font</label>
-            <select id="customFont">
-                <option value="impact">Impact</option>
-                <option value="anton">Anton</option>
-                <option value="futura">Futura</option>
-                <option value="times">Times New Roman</option>
-                <option value="liberation">Liberation Sans</option>
-                <option value="libreFranklin">Libre Franklin</option>
-            </select>
-            <label for="customColor">Color</label>
-            <input id="customColor" type="color" value="#ffffff">
-            <label for="customOutline">Outline</label>
-            <input id="customOutline" type="number" min="0" max="20" value="3">
-
+            <div id="customProperties" class="hidden">
+                <label for="customText">Text</label>
+                <textarea id="customText"></textarea>
+                <label for="customSize">Size (%)</label>
+                <input id="customSize" type="number" min="1" max="100" value="8">
+                <label for="customFont">Font</label>
+                <select id="customFont">
+                    <option value="impact">Impact</option>
+                    <option value="anton">Anton</option>
+                    <option value="futura">Futura</option>
+                    <option value="times">Times New Roman</option>
+                    <option value="liberation">Liberation Sans</option>
+                    <option value="libreFranklin">Libre Franklin</option>
+                </select>
+                <label for="customColor">Color</label>
+                <input id="customColor" type="color" value="#ffffff">
+                <label for="customOutline">Outline</label>
+                <input id="customOutline" type="number" min="0" max="20" value="3">
+            </div>
         </section>
 
         <button id="exportBtn">export</button>

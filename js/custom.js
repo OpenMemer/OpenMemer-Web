@@ -12,13 +12,14 @@ function selectedCustomLayer() { // Returns the currently selected custom text l
 function selectCustomLayer(id) { // Function to select a custom text layer by its ID
     selectedCustomId = id;
     const layer = selectedCustomLayer(); // Get the currently selected custom text layer
+    document.getElementById('customProperties').classList.toggle('hidden', !layer);
     document.getElementById('customText').value = layer ? layer.text : ''; // Update the textarea with the text of the selected layer, or clear it if no layer is selected
     document.getElementById('customSize').value = layer ? layer.size * 100 : 8;
     document.getElementById('customColor').value = layer ? layer.color : '#ffffff';
     document.getElementById('customOutline').value = layer ? layer.outline * 100 : 3;
     document.getElementById('customFont').value = layer ? layer.font : 'impact';
     refreshCustomLayerList();
-    
+
     if (currentMemeMode === 'custom') {
         drawMeme();
     }
@@ -193,49 +194,52 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
     ctx.textBaseline = 'middle';
 
     for (const layer of customLayers) {
-    const layout = getCustomTextLayout(layer, source);
-    const centerX = layer.x * source.width;
-    const centerY = layer.y * source.height;
+        const layout = getCustomTextLayout(layer, source);
+        const centerX = layer.x * source.width;
+        const centerY = layer.y * source.height;
 
-    ctx.font = customFontStyle(layer, layout.fontSize);
-    ctx.fillStyle = layer.color;
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = layout.fontSize * layer.outline;
-    ctx.lineJoin = 'round';
+        ctx.font = customFontStyle(layer, layout.fontSize);
+        ctx.fillStyle = layer.color;
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = layout.fontSize * layer.outline;
+        ctx.lineJoin = 'round';
 
-    // Position the first line so the group stays centered on the layer.
-    const firstLineY = centerY - (layout.lines.length - 1) * layout.lineHeight / 2;
+        // Position the first line so the group stays centered on the layer.
+        const firstLineY = centerY - (layout.lines.length - 1) * layout.lineHeight / 2;
 
-    layout.lines.forEach((line, index) => {
-        const lineY = firstLineY + index * layout.lineHeight;
+        layout.lines.forEach((line, index) => {
+            const lineY = firstLineY + index * layout.lineHeight;
 
-        if (layer.outline > 0) {
-            ctx.strokeText(line, centerX, lineY);
+            if (layer.outline > 0) {
+                ctx.strokeText(line, centerX, lineY);
+            }
+
+            ctx.fillText(line, centerX, lineY);
+        });
+
+        if (!exportMode && layer.id === selectedCustomId) {
+            const padding = layout.fontSize * 0.1;
+
+            ctx.save();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(1, source.width * 0.002);
+            ctx.setLineDash([layout.fontSize * 0.15, layout.fontSize * 0.1]);
+
+            ctx.strokeRect(
+                centerX - layout.width / 2 - padding,
+                centerY - layout.height / 2 - padding,
+                layout.width + padding * 2,
+                layout.height + padding * 2
+            );
+
+            ctx.restore();
         }
-
-        ctx.fillText(line, centerX, lineY);
-    });
-
-    if (!exportMode && layer.id === selectedCustomId) {
-        const padding = layout.fontSize * 0.1;
-
-        ctx.save();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = Math.max(1, source.width * 0.002);
-        ctx.setLineDash([layout.fontSize * 0.15, layout.fontSize * 0.1]);
-
-        ctx.strokeRect(
-            centerX - layout.width / 2 - padding,
-            centerY - layout.height / 2 - padding,
-            layout.width + padding * 2,
-            layout.height + padding * 2
-        );
-
-        ctx.restore();
     }
-}
 
     ctx.restore();
+    if (!exportMode) {
+    updateCustomDeleteButton();
+}
 }
 
 let customDrag = null; // Object to hold the state of the currently dragged custom text layer
@@ -288,6 +292,8 @@ canvas.addEventListener('mousedown', function (event) { // when you click on the
             return;
         }
     }
+    // If no text was clicked, clear the selection.
+    selectCustomLayer(null);
 });
 
 window.addEventListener('mousemove', function (event) { // event listener for mouse movement to drag custom text layers
@@ -334,3 +340,45 @@ function refreshCustomLayerList() {
         list.appendChild(button);
     });
 }
+
+const customDeleteText = document.getElementById('customDeleteText');
+
+function updateCustomDeleteButton() {
+    const layer = selectedCustomLayer();
+    const source = isGIF ? gifCanvas : image;
+
+    if (currentMemeMode !== 'custom' || !hasImageBeenLoaded ||
+        !layer || !source.width || !source.height) {
+        customDeleteText.hidden = true;
+        return;
+    }
+
+    const layout = getCustomTextLayout(layer, source);
+    const padding = layout.fontSize * 0.1;
+
+    // Find the selection box's top-left corner in image coordinates.
+    const left = layer.x * source.width - layout.width / 2 - padding;
+    const top = layer.y * source.height - layout.height / 2 - padding;
+
+    // Convert image coordinates into the canvas's displayed size.
+    const x = canvas.offsetLeft + left * canvas.clientWidth / source.width;
+    const y = canvas.offsetTop + top * canvas.clientHeight / source.height;
+
+    customDeleteText.hidden = false;
+
+    // Keep the button inside the canvas holder, even near an image edge.
+    customDeleteText.style.left = `${Math.max(0, Math.min(
+        canvasHolder.clientWidth - customDeleteText.offsetWidth, x
+    ))}px`;
+    customDeleteText.style.top = `${Math.max(0, Math.min(
+        canvasHolder.clientHeight - customDeleteText.offsetHeight, y
+    ))}px`;
+}
+
+customDeleteText.addEventListener('click', function () {
+    const index = customLayers.findIndex(layer => layer.id === selectedCustomId);
+    if (index === -1) return;
+
+    customLayers.splice(index, 1);
+    selectCustomLayer(null);
+});
