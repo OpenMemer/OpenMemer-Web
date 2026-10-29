@@ -21,8 +21,8 @@
     <script src="js/analytics.js" defer></script>
     <script src="js/core.js" defer></script>
     <script src="js/ui.js" defer></script>
-    <script src="js/export.js" defer></script>
     <script src="js/custom.js" defer></script>
+    <script src="js/export.js" defer></script>
 
 
     <link rel="icon" type="image/png" href="./media/icons/favicon/favicon-96x96.png" sizes="96x96" />
@@ -166,7 +166,7 @@
         <input type="file" id="imageLoader" name="imageLoader" accept="image/*" hidden />
     </div>
     <div class="controls">
-        <div class="horizGroupImpact">
+        <div class="horizGroupImpact" id="standardControls">
             <input type="text" class="textInput" id="topText" placeholder="top text">
             <input type="text" class="textInput" id="bottomText" placeholder="bottom text">
             <button id="advBtn">advanced settings</button>
@@ -205,6 +205,9 @@
                 </div>
             </div>
         </div>
+        <section id="customControls" class="hidden">
+            <button type="button">Placeholder</button>
+        </section>
         <button id="exportBtn">export</button>
     </div>
     <div class="version-indicator" id="versionBtn">v1.3.4</div>

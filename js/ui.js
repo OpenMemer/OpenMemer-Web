@@ -25,8 +25,10 @@ inputs.forEach(input => {
     });
 });
 
-canvas.addEventListener('click', () => { // if user clicks the canvas
-    fileInput.click(); // trigger file input click on canvas click
+canvas.addEventListener('click', () => {
+    if (currentMemeMode !== 'custom' || !hasImageBeenLoaded) {
+        fileInput.click();
+    }
 });
 
 const advancedSettingsBtn = document.getElementById('advBtn'); // advanced settings button
@@ -125,7 +127,10 @@ modeBtns.forEach(btn => {
         
         // 2. Get the mode from the HTML (data-mode="...")
         const mode = btn.dataset.mode;
-        
+        const isCustom = (mode === 'custom');
+        document.getElementById('standardControls').classList.toggle('hidden', isCustom);
+        document.getElementById('customControls').classList.toggle('hidden', !isCustom);
+        document.body.classList.toggle('custom-mode', isCustom);
         const fontSizeLabel = document.getElementById('fontSizeLabel');
         const outlineGroup = document.getElementById('outlineGroup');
         const subtitleGroup = document.getElementById('subtitleGroup');
