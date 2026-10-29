@@ -10,7 +10,9 @@ function selectCustomLayer(id) { // Function to select a custom text layer by it
     selectedCustomId = id;
     const layer = selectedCustomLayer(); // Get the currently selected custom text layer
     document.getElementById('customText').value = layer ? layer.text : ''; // Update the textarea with the text of the selected layer, or clear it if no layer is selected
-
+    document.getElementById('customSize').value = layer ? layer.size * 100 : 8;
+    document.getElementById('customColor').value = layer ? layer.color : '#ffffff';
+    document.getElementById('customOutline').value = layer ? layer.outline * 100 : 3;
     if (currentMemeMode === 'custom') {
         drawMeme();
     }
@@ -42,6 +44,35 @@ document.getElementById('customText').addEventListener('input', function (event)
     drawMeme();
 });
 
+document.getElementById('customSize').addEventListener('input', function (event) {
+    const layer = selectedCustomLayer();
+    if (!layer || event.target.value === '') return;
+
+    const size = Number(event.target.value);
+    if (!Number.isFinite(size) || size < 1 || size > 100) return;
+
+    layer.size = size / 100;
+    drawMeme();
+});
+
+document.getElementById('customColor').addEventListener('input', function (event) {
+    const layer = selectedCustomLayer();
+    if (!layer) return;
+
+    layer.color = event.target.value;
+    drawMeme();
+});
+document.getElementById('customOutline').addEventListener('input', function (event) {
+    const layer = selectedCustomLayer();
+    if (!layer || event.target.value === '') return;
+
+    const outline = Number(event.target.value);
+    if (!Number.isFinite(outline) || outline < 0 || outline > 20) return;
+
+    layer.outline = outline / 100;
+    drawMeme();
+});
+
 function drawCustomMeme(exportMode = false, targetWidth = null) { // you know the dril
     const source = isGIF ? gifCanvas : image;
     if (!source || !source.width || !source.height) return;
@@ -60,6 +91,16 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
 
         ctx.font = `${fontSize}px Impact, sans-serif`;
         ctx.fillStyle = layer.color;
+        if (layer.outline > 0) {
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = fontSize * layer.outline;
+            ctx.lineJoin = 'round';
+            ctx.strokeText(
+                layer.text,
+                layer.x * source.width,
+                layer.y * source.height
+            );
+        }
         ctx.fillText(
             layer.text,
             layer.x * source.width,
@@ -81,6 +122,7 @@ function getCustomMousePosition(event) { // Function to get the mouse position r
         y: ((event.clientY - rect.top) / rect.height) * source.height // ditto for y-coordinate
     };
 }
+
 function customLayerContainsPoint(layer, point, source) { // this function checks if a given point is within the bounds of a custom text layer
     const fontSize = source.width * layer.size; // font size calculator
 
