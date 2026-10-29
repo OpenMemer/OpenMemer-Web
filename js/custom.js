@@ -243,6 +243,7 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
     ctx.restore();
     if (!exportMode) {
     updateCustomDeleteButton();
+    updateCustomTouchTargets(source);
 }
 }
 
@@ -438,3 +439,92 @@ canvas.addEventListener('keydown', function (event) {
     event.preventDefault();
     drawMeme();
 });
+
+const customTouchLayer = document.getElementById('customTouchLayer');
+const customTouchTargets = new Map();
+let customTouchDrag = null;
+
+function updateCustomTouchTargets(source) {
+    const activeIds = new Set();
+
+    for (const layer of customLayers) {
+        activeIds.add(layer.id);
+
+        let target = customTouchTargets.get(layer.id);
+
+        if (!target) {
+            target = document.createElement('div');
+            target.className = 'custom-touch-target';
+            target.dataset.layerId = layer.id;
+            customTouchLayer.appendChild(target);
+            customTouchTargets.set(layer.id, target);
+        }
+
+        const layout = getCustomTextLayout(layer, source);
+        const padding = layout.fontSize * 0.1;
+
+        const left = layer.x * source.width - layout.width / 2 - padding;
+        const top = layer.y * source.height - layout.height / 2 - padding;
+
+        target.style.left = `${canvas.offsetLeft + left / source.width * canvas.clientWidth}px`;
+        target.style.top = `${canvas.offsetTop + top / source.height * canvas.clientHeight}px`;
+        target.style.width = `${(layout.width + padding * 2) / source.width * canvas.clientWidth}px`;
+        target.style.height = `${(layout.height + padding * 2) / source.height * canvas.clientHeight}px`;
+    }
+
+    // Remove targets for layers that have been deleted.
+    for (const [id, target] of customTouchTargets) {
+        if (!activeIds.has(id)) {
+            target.remove();
+            customTouchTargets.delete(id);
+        }
+    }
+}
+customTouchLayer.addEventListener('pointerdown', function (event) {
+    if (currentMemeMode !== 'custom' || event.pointerType !== 'touch') return;
+
+    const target = event.target.closest('.custom-touch-target');
+    if (!target) return;
+
+    const id = Number(target.dataset.layerId);
+    const layer = customLayers.find(item => item.id === id);
+    const source = isGIF ? gifCanvas : image;
+    if (!layer || !source.width || !source.height) return;
+
+    const point = getCustomMousePosition(event);
+
+    customTouchDrag = {
+        id: layer.id,
+        pointerId: event.pointerId,
+        offsetX: point.x - layer.x * source.width,
+        offsetY: point.y - layer.y * source.height
+    };
+
+    target.setPointerCapture(event.pointerId);
+    selectCustomLayer(layer.id);
+    event.preventDefault();
+});
+
+customTouchLayer.addEventListener('pointermove', function (event) {
+    if (!customTouchDrag || event.pointerId !== customTouchDrag.pointerId) return;
+
+    const layer = customLayers.find(item => item.id === customTouchDrag.id);
+    const source = isGIF ? gifCanvas : image;
+    if (!layer || !source.width || !source.height) return;
+
+    const point = getCustomMousePosition(event);
+
+    layer.x = Math.max(0, Math.min(1, (point.x - customTouchDrag.offsetX) / source.width));
+    layer.y = Math.max(0, Math.min(1, (point.y - customTouchDrag.offsetY) / source.height));
+
+    drawMeme();
+});
+
+function endCustomTouchDrag(event) {
+    if (customTouchDrag && event.pointerId === customTouchDrag.pointerId) {
+        customTouchDrag = null;
+    }
+}
+
+customTouchLayer.addEventListener('pointerup', endCustomTouchDrag);
+customTouchLayer.addEventListener('pointercancel', endCustomTouchDrag);

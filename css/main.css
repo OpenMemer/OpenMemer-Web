@@ -974,3 +974,39 @@ button:active {
         cursor: pointer;
     }
 }
+
+#customTouchLayer {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    body.custom-mode #memeEditor {
+        touch-action: pan-y;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+    }
+    body.custom-mode #canvasHolder {
+    -webkit-tap-highlight-color: transparent;
+}
+
+    body.custom-mode #customTouchLayer {
+        display: block;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .custom-touch-target {
+        position: absolute;
+        pointer-events: auto;
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+@media (max-width: 600px) {
+    #customDeleteText {
+        width: 1.625rem;
+        height: 1.625rem;
+        font-size: 1.125rem;
+    }
+}
