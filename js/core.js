@@ -330,7 +330,9 @@ function drawMeme(exportMode = false, targetWidth = null) {
         drawDemotivationalMeme(exportMode, targetWidth);
     } else if (currentMemeMode === 'gif-mode') {
         drawGifCaptionMeme(exportMode, targetWidth);
-    } 
+    } else if (currentMemeMode === 'custom') {
+        drawCustomMeme(exportMode, targetWidth);
+    }
     else {
         drawImpactMeme(exportMode, targetWidth);
     }
