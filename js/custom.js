@@ -13,6 +13,7 @@ function selectCustomLayer(id) { // Function to select a custom text layer by it
     document.getElementById('customSize').value = layer ? layer.size * 100 : 8;
     document.getElementById('customColor').value = layer ? layer.color : '#ffffff';
     document.getElementById('customOutline').value = layer ? layer.outline * 100 : 3;
+    document.getElementById('customFont').value = layer ? layer.font : 'impact';
     if (currentMemeMode === 'custom') {
         drawMeme();
     }
@@ -34,6 +35,27 @@ function addCustomText() { // Function to add a new custom text layer
     selectCustomLayer(layer.id);
 }
 
+function customFontFamily(layer) {
+    switch (layer.font) {
+        case 'anton':
+            return 'Anton, sans-serif';
+        case 'futura':
+            return '"Futura PT Condensed Bold", sans-serif';
+        case 'times':
+            return '"Times New Roman", serif';
+        case 'liberation':
+            return '"Liberation Sans", sans-serif';
+        case 'libreFranklin':
+            return '"Libre Franklin", sans-serif';
+        default:
+            return 'Impact, Anton, sans-serif';
+    }
+}
+
+function customFontStyle(layer, fontSize) {
+    const weight = layer.font === 'futura' ? 'bold ' : '';
+    return `${weight}${fontSize}px ${customFontFamily(layer)}`;
+}
 document.getElementById('customAddText').addEventListener('click', addCustomText); // Event listener for the "add text" button in custom mode
 
 document.getElementById('customText').addEventListener('input', function (event) { // Event listener for the custom text input field
@@ -54,7 +76,23 @@ document.getElementById('customSize').addEventListener('input', function (event)
     layer.size = size / 100;
     drawMeme();
 });
+document.getElementById('customFont').addEventListener('change', async function (event) {
+    const layer = selectedCustomLayer();
+    if (!layer) return;
 
+    layer.font = event.target.value;
+
+    try {
+        // ask the browser to load the font before drawing it.
+        await document.fonts.load(customFontStyle(layer, 16));
+    } catch (error) {
+        console.error('Could not load custom font:', error);
+    }
+
+    if (currentMemeMode === 'custom') {
+        drawMeme();
+    }
+});
 document.getElementById('customColor').addEventListener('input', function (event) {
     const layer = selectedCustomLayer();
     if (!layer) return;
@@ -89,7 +127,7 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
     for (const layer of customLayers) {
         const fontSize = source.width * layer.size;
 
-        ctx.font = `${fontSize}px Impact, sans-serif`;
+        ctx.font = customFontStyle(layer, fontSize);
         ctx.fillStyle = layer.color;
         if (layer.outline > 0) {
             ctx.strokeStyle = '#000000';
@@ -106,6 +144,26 @@ function drawCustomMeme(exportMode = false, targetWidth = null) { // you know th
             layer.x * source.width,
             layer.y * source.height
         );
+        if (!exportMode && layer.id === selectedCustomId) {
+            const textWidth = ctx.measureText(layer.text).width;
+            const centerX = layer.x * source.width;
+            const centerY = layer.y * source.height;
+            const padding = fontSize * 0.1;
+
+            ctx.save();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(1, source.width * 0.002);
+            ctx.setLineDash([fontSize * 0.15, fontSize * 0.1]);
+
+            ctx.strokeRect(
+                centerX - textWidth / 2 - padding,
+                centerY - fontSize / 2 - padding,
+                textWidth + padding * 2,
+                fontSize + padding * 2
+            );
+
+            ctx.restore();
+        }
     }
 
     ctx.restore();
@@ -127,7 +185,7 @@ function customLayerContainsPoint(layer, point, source) { // this function check
     const fontSize = source.width * layer.size; // font size calculator
 
     ctx.save(); // duh
-    ctx.font = `${fontSize}px Impact, sans-serif`;
+    ctx.font = customFontStyle(layer, fontSize);
     const textWidth = ctx.measureText(layer.text).width;
     ctx.restore();
 
