@@ -1,5 +1,15 @@
     [
         {
+            "version": "v1.5.0",
+            "changes": [
+                "Added Custom Mode: add, place, and style multiple text layers on images and GIFs.",
+                "Choose from six fonts and customize each layer's color, size, and outline. More fonts are planned.",
+                "Move text by dragging or using the arrow keys. On mobile, use the on-image controls to edit, resize, and delete text.",
+                "Fixed the version number and GitHub button covering content while scrolling.",
+                "Updated the GitHub link to the new organization."
+            ]
+        },
+        {
             "version": "v1.3.4",
             "changes": [
                 "Added AGPL license to the repository.",
