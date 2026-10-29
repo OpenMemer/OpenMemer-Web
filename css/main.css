@@ -943,5 +943,34 @@ button:active {
         gap: 1rem;
     }
 
+}
 
+
+/* Desktop uses the text dropdown. */
+#customMobileAddText {
+    display: none;
+}
+
+/* Mobile uses a direct Add Text button. */
+@media (max-width: 600px) {
+    .custom-dropdown {
+        display: none;
+    }
+
+    #customMobileAddText {
+        display: block;
+    }
+
+    #customMobileAddText,
+    #customChangeImage {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+        cursor: pointer;
+    }
 }

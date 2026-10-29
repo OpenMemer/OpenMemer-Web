@@ -153,7 +153,7 @@
     </div>
 
     <div id="canvasHolder">
-        <canvas id="memeEditor" width="800" height="600"></canvas>
+        <canvas id="memeEditor" width="800" height="600" tabindex="0"></canvas>
         <button id="customDeleteText" type="button" aria-label="Delete selected text" hidden>×</button>
         <div id="uploadHint" class="upload-hint">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
@@ -208,6 +208,7 @@
         </div>
         <section id="customControls" class="hidden">
             <div class="custom-toolbar">
+                <button id="customMobileAddText" type="button">+ add text</button>
                 <div class="custom-dropdown">
                     <button id="customTextDropdown" type="button" aria-controls="customTextMenu"
                         aria-expanded="false">text ▼</button>
@@ -221,40 +222,40 @@
                 <button id="customChangeImage" type="button">change image</button>
             </div>
             <div id="customProperties" class="hidden">
-    <label class="custom-text-field">
-        <span>Text</span>
-        <textarea id="customText" rows="2"></textarea>
-    </label>
+                <label class="custom-text-field">
+                    <span>Text</span>
+                    <textarea id="customText" rows="2"></textarea>
+                </label>
 
-    <div class="custom-appearance">
-        <label>
-            <span>Font</span>
-            <select id="customFont">
-                <option value="impact">Impact</option>
-                <option value="anton">Anton</option>
-                <option value="futura">Futura</option>
-                <option value="times">Times New Roman</option>
-                <option value="liberation">Liberation Sans</option>
-                <option value="libreFranklin">Libre Franklin</option>
-            </select>
-        </label>
+                <div class="custom-appearance">
+                    <label>
+                        <span>Font</span>
+                        <select id="customFont">
+                            <option value="impact">Impact</option>
+                            <option value="anton">Anton</option>
+                            <option value="futura">Futura</option>
+                            <option value="times">Times New Roman</option>
+                            <option value="liberation">Liberation Sans</option>
+                            <option value="libreFranklin">Libre Franklin</option>
+                        </select>
+                    </label>
 
-        <label>
-            <span>Size (%)</span>
-            <input id="customSize" type="number" min="1" max="100" value="8">
-        </label>
+                    <label>
+                        <span>Size (%)</span>
+                        <input id="customSize" type="number" min="1" max="100" value="8">
+                    </label>
 
-        <label>
-            <span>Color</span>
-            <input id="customColor" type="color" value="#ffffff">
-        </label>
+                    <label>
+                        <span>Color</span>
+                        <input id="customColor" type="color" value="#ffffff">
+                    </label>
 
-        <label>
-            <span>Outline</span>
-            <input id="customOutline" type="number" min="0" max="20" value="3">
-        </label>
-    </div>
-</div>
+                    <label>
+                        <span>Outline</span>
+                        <input id="customOutline" type="number" min="0" max="20" value="3">
+                    </label>
+                </div>
+            </div>
         </section>
 
         <button id="exportBtn">export</button>

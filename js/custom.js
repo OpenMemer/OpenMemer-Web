@@ -67,6 +67,10 @@ document.getElementById('customAddText').addEventListener('click', function () {
     setCustomTextMenuOpen(false);
 }); // Event listener for the "add text" button in custom mode
 
+document.getElementById('customMobileAddText').addEventListener('click', function () {
+    addCustomText();
+}); // Event listener for the "add text" button in custom mode on mobile
+
 document.getElementById('customText').addEventListener('input', function (event) { // Event listener for the custom text input field
     const layer = selectedCustomLayer(); // Get the currently selected custom text layer
     if (!layer) return; // If no layer is selected, exit the function
@@ -289,6 +293,7 @@ canvas.addEventListener('mousedown', function (event) { // when you click on the
             };
 
             event.preventDefault();
+            canvas.focus();
             return;
         }
     }
@@ -381,4 +386,55 @@ customDeleteText.addEventListener('click', function () {
 
     customLayers.splice(index, 1);
     selectCustomLayer(null);
+});
+
+
+// Close the text menu when clicking anywhere outside it.
+document.addEventListener('click', function (event) {
+    const dropdown = document.querySelector('.custom-dropdown');
+
+    if (!dropdown.contains(event.target)) {
+        setCustomTextMenuOpen(false);
+    }
+});
+
+// Escape closes the menu and returns focus to its button.
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !customTextMenu.hidden) {
+        setCustomTextMenuOpen(false);
+        customTextDropdown.focus();
+    }
+});
+
+
+canvas.addEventListener('keydown', function (event) {
+    if (currentMemeMode !== 'custom') return;
+
+    const layer = selectedCustomLayer();
+    if (!layer) return;
+
+    const step = event.shiftKey ? 0.02 : 0.005;
+
+    switch (event.key) {
+        case 'ArrowLeft':
+            layer.x -= step;
+            break;
+        case 'ArrowRight':
+            layer.x += step;
+            break;
+        case 'ArrowUp':
+            layer.y -= step;
+            break;
+        case 'ArrowDown':
+            layer.y += step;
+            break;
+        default:
+            return;
+    }
+
+    layer.x = Math.max(0, Math.min(1, layer.x));
+    layer.y = Math.max(0, Math.min(1, layer.y));
+
+    event.preventDefault();
+    drawMeme();
 });
