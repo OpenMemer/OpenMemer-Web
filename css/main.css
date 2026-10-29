@@ -776,7 +776,7 @@ button:active {
 }
 
 #customTextMenu {
-    max-height: 16rem;
+    max-height: 10rem;
     overflow-y: auto;
 }
 
@@ -823,3 +823,102 @@ button:active {
 #customDeleteText:active {
     transform: translate(-50%, -50%);
 }
+
+
+/* Desktop custom mode controls */
+@media (min-width: 601px) {
+    #customControls {
+        width: 100%;
+    }
+
+    #customTextDropdown,
+    #customChangeImage,
+    #customAddText,
+    #customLayerList button {
+        box-sizing: border-box;
+        padding: 10px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+        cursor: pointer;
+    }
+
+    #customTextDropdown,
+    #customChangeImage {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    #customTextMenu {
+        top: calc(100% + 4px);
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+    }
+
+    #customAddText {
+        width: 100%;
+    }
+
+    #customLayerList button {
+        margin-top: 4px;
+        text-align: left;
+    }
+
+    #customLayerList button[aria-pressed="true"] {
+        background: #333;
+    }
+
+    #customProperties:not(.hidden) {
+        display: grid;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .custom-text-field,
+    .custom-appearance label {
+        display: grid;
+        gap: 4px;
+        min-width: 0;
+        text-align: left;
+        font-size: 0.85rem;
+        color: white;
+    }
+
+    .custom-appearance {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    #customProperties textarea,
+    #customProperties select,
+    #customProperties input {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        padding: 8px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+    }
+
+    #customProperties textarea {
+        resize: vertical;
+    }
+
+    #customProperties input[type="color"] {
+        padding: 4px;
+        cursor: pointer;
+    }
+}
+
