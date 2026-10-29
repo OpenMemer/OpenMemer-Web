@@ -42,7 +42,8 @@ body.adv-open {
     height: 36px;
     padding: 6px;
     background: transparent;
-    color: #fff; /* makes inline SVG fill via currentColor */
+    color: #fff;
+    /* makes inline SVG fill via currentColor */
     text-decoration: none;
     border: none;
     border-radius: 6px;
@@ -57,11 +58,11 @@ body.adv-open {
 }
 
 #githubBtn:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 #githubBtn:focus {
-    outline: 2px solid rgba(255,255,255,0.12);
+    outline: 2px solid rgba(255, 255, 255, 0.12);
     outline-offset: 2px;
 }
 
@@ -71,7 +72,8 @@ body.adv-open {
     gap: 1rem;
     margin-bottom: 1rem;
     justify-content: center;
-    width: 45vw; /* Match canvas width */
+    width: 45vw;
+    /* Match canvas width */
     max-width: 1200px;
 }
 
@@ -82,12 +84,14 @@ body.adv-open {
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
-    flex: 1; /* Equal width */
+    flex: 1;
+    /* Equal width */
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    height: 50px; /* Fixed height for consistency */
+    height: 50px;
+    /* Fixed height for consistency */
 }
 
 .mode-btn svg {
@@ -106,7 +110,8 @@ body.adv-open {
 
 /* container for the canvas */
 #canvasHolder {
-    position: relative; /* Needed for absolute positioning of hint */
+    position: relative;
+    /* Needed for absolute positioning of hint */
     display: block;
     justify-content: center;
     align-items: center;
@@ -326,13 +331,25 @@ button:active {
 
 /* Modal Overlay */
 @keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalContentScale {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .modal {
@@ -378,7 +395,7 @@ button:active {
     width: 100%;
     max-width: 500px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     font-family: sans-serif;
     min-height: 300px;
     display: flex;
@@ -475,7 +492,8 @@ button:active {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    pointer-events: none; /* Let clicks pass through to canvas/container */
+    pointer-events: none;
+    /* Let clicks pass through to canvas/container */
     opacity: 0.7;
     transition: opacity 0.2s;
 }
@@ -484,7 +502,7 @@ button:active {
     color: white;
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.2rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
@@ -559,22 +577,22 @@ button:active {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .nav-group {
         flex-direction: row;
         gap: 15px;
     }
-    
+
     .modal-content {
         order: 2;
         max-height: 60vh;
         overflow-y: auto;
     }
-    
+
     .nav-group.left {
         order: 1;
     }
-    
+
     .nav-group.right {
         order: 3;
     }
@@ -754,7 +772,7 @@ button:active {
 .custom-toolbar {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 1rem;
 }
 
 .custom-dropdown {
@@ -877,14 +895,14 @@ button:active {
 
     #customProperties:not(.hidden) {
         display: grid;
-        gap: 8px;
-        margin-top: 8px;
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
     .custom-text-field,
     .custom-appearance label {
         display: grid;
-        gap: 4px;
+        gap: 0.5rem;
         min-width: 0;
         text-align: left;
         font-size: 0.85rem;
@@ -894,7 +912,7 @@ button:active {
     .custom-appearance {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 8px;
+        gap: 1rem;
     }
 
     #customProperties textarea,
@@ -920,5 +938,13 @@ button:active {
         padding: 4px;
         cursor: pointer;
     }
-}
 
+    .controls {
+        gap: 1rem;
+    }
+
+    /* closed advanced panel should not create an extra gap. */
+    #advancedSettingsHandler:not(.visible) {
+        display: none;
+    }
+}
