@@ -2,12 +2,12 @@
 // const fileInput = document.getElementById('imageLoader'); already declared in core.js
 const topText = document.getElementById('topText'); // top text input
 const bottomText = document.getElementById('bottomText'); // bottom text 
-const fontSizeInput = document.getElementById('fontSize'); 
-const outlineWidthInput = document.getElementById('outlineWidth'); 
+const fontSizeInput = document.getElementById('fontSize');
+const outlineWidthInput = document.getElementById('outlineWidth');
 const subtitleSizeInput = document.getElementById('subtitleSize');
 
-fontSizeInput.addEventListener('change', drawMeme); 
-outlineWidthInput.addEventListener('change', drawMeme); 
+fontSizeInput.addEventListener('change', drawMeme);
+outlineWidthInput.addEventListener('change', drawMeme);
 subtitleSizeInput.addEventListener('change', drawMeme);
 topText.addEventListener('input', drawMeme);
 bottomText.addEventListener('input', drawMeme);
@@ -25,8 +25,10 @@ inputs.forEach(input => {
     });
 });
 
-canvas.addEventListener('click', () => { // if user clicks the canvas
-    fileInput.click(); // trigger file input click on canvas click
+canvas.addEventListener('click', () => {
+    if (currentMemeMode !== 'custom' || !hasImageBeenLoaded) {
+        fileInput.click();
+    }
 });
 
 const advancedSettingsBtn = document.getElementById('advBtn'); // advanced settings button
@@ -43,7 +45,7 @@ document.querySelectorAll('.pill-btn').forEach(btn => {
         const targetId = btn.getAttribute('data-target');
         const input = document.getElementById(targetId);
         if (!input) return;
-        
+
         const step = parseFloat(input.step) || 1;
         const min = parseFloat(input.min);
         const max = parseFloat(input.max);
@@ -63,7 +65,7 @@ document.querySelectorAll('.pill-btn').forEach(btn => {
         val = Math.round(val * 100) / 100;
 
         input.value = val;
-        
+
         // Trigger change event manually so drawMeme picks it up
         input.dispatchEvent(new Event('change'));
     });
@@ -73,7 +75,7 @@ document.querySelectorAll('.pill-btn').forEach(btn => {
 if (window.visualViewport) {
     let viewportBaseHeight = window.visualViewport.height;
     let isKeyboardLikelyOpen = false;
-    
+
     window.visualViewport.addEventListener('resize', () => {
         const currentHeight = window.visualViewport.height;
 
@@ -122,10 +124,18 @@ modeBtns.forEach(btn => {
         // 1. Visual Update: Switch the 'active' class
         modeBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
+
         // 2. Get the mode from the HTML (data-mode="...")
         const mode = btn.dataset.mode;
-        
+        const isCustom = (mode === 'custom');
+        if (!isCustom) closeCustomMobileEditor();
+        if (isCustom) {
+            advancedSettingsHandler.classList.remove('visible');
+            document.body.classList.remove('adv-open');
+        }
+        document.getElementById('standardControls').classList.toggle('hidden', isCustom);
+        document.getElementById('customControls').classList.toggle('hidden', !isCustom);
+        document.body.classList.toggle('custom-mode', isCustom);
         const fontSizeLabel = document.getElementById('fontSizeLabel');
         const outlineGroup = document.getElementById('outlineGroup');
         const subtitleGroup = document.getElementById('subtitleGroup');
@@ -140,7 +150,7 @@ modeBtns.forEach(btn => {
             fontSizeLabel.textContent = "Title Size:";
             outlineGroup.classList.add('hidden');
             subtitleGroup.classList.remove('hidden');
-            if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
+            if (gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         } else if (mode === 'gif-mode') {
             topText.placeholder = "caption";
             bottomText.style.display = 'none'; // Hide bottom text
@@ -148,7 +158,7 @@ modeBtns.forEach(btn => {
             fontSizeLabel.textContent = "Caption Size:";
             outlineGroup.classList.add('hidden'); // No outline in this style
             subtitleGroup.classList.add('hidden');
-            if(gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
+            if (gifSpeedGroup) gifSpeedGroup.classList.remove('hidden');
         } else {
             topText.placeholder = "top text";
             bottomText.placeholder = "bottom text";
@@ -157,7 +167,7 @@ modeBtns.forEach(btn => {
             fontSizeLabel.textContent = "Font Size:";
             outlineGroup.classList.remove('hidden');
             subtitleGroup.classList.add('hidden');
-            if(gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
+            if (gifSpeedGroup) gifSpeedGroup.classList.add('hidden');
         }
 
         // 4. Tell Core to switch modes
@@ -182,9 +192,9 @@ async function loadChangelogs() {
 
 function updateChangelogUI() {
     if (changelogs.length === 0) return;
-    
+
     const log = changelogs[currentChangelogIndex];
-    
+
     // Update Content
     changelogTitle.textContent = `Update changelog: ${log.version}`;
     changelogList.innerHTML = log.changes.map(change => `<li>${change}</li>`).join('');

@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <title>OpenMemer</title>
-    <meta name="keywords" content="meme generator, free meme maker, open source, no watermark, gif maker, meme creator, openmemer">
+    <meta name="keywords"
+        content="meme generator, free meme maker, open source, no watermark, gif maker, meme creator, openmemer">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.openmemer.com/">
     <link rel="stylesheet" href="css/main.css">
@@ -20,6 +21,7 @@
     <script src="js/analytics.js" defer></script>
     <script src="js/core.js" defer></script>
     <script src="js/ui.js" defer></script>
+    <script src="js/custom.js" defer></script>
     <script src="js/export.js" defer></script>
 
 
@@ -52,35 +54,38 @@
 
     <!-- Schema.org for Google -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "OpenMemer",
-      "url": "https://www.openmemer.com/",
-      "description": "Free open-source meme generator. Create memes and GIFs without watermarks directly in your browser.",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "featureList": "No watermarks, Open Source, GIF support"
-    }
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "OpenMemer",
+            "url": "https://www.openmemer.com/",
+            "description": "Free open-source meme generator. Create memes and GIFs without watermarks directly in your browser.",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Any",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "featureList": "No watermarks, Open Source, GIF support"
+        }
     </script>
 
 </head>
 
 <body>
-    <a id="githubBtn" href="https://github.com/r00tkitty/OpenMemer-Web" target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository">
+    <a id="githubBtn" href="https://github.com/r00tkitty/OpenMemer-Web" target="_blank" rel="noopener noreferrer"
+        aria-label="GitHub Repository">
         <svg width="20" height="20" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="currentColor"/>
+            <path
+                d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+                transform="scale(64)" fill="currentColor" />
         </svg>
     </a>
     <h1 class="logo">OpenMemer</h1>
 
     <div class="mode-selector">
-          <button class="mode-btn active" data-mode="impact" aria-label="Standard Mode">
+        <button class="mode-btn active" data-mode="impact" aria-label="Standard Mode">
             <!-- Standard Icon (Inline SVG) -->
             <svg viewBox="0 0 24 24" aria-hidden="true">
                 <!-- outer frame -->
@@ -128,10 +133,31 @@
             </svg>
 
         </button>
+        <button class="mode-btn" data-mode="custom" aria-label="Custom Mode">
+            <!-- Custom Icon (Inline SVG) -->
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <!-- outer frame -->
+                <rect x="2.5" y="2.5" width="19" height="19" rx="3" fill="none" stroke="currentColor"
+                    stroke-width="1" />
+
+                <!-- top text bar -->
+                <rect x="6" y="5" width="12" height="2.2" rx="1.1" fill="currentColor" />
+
+                <!-- image circle -->
+                <circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1" />
+
+                <!-- bottom text bar -->
+                <rect x="6" y="16.8" width="12" height="2.2" rx="1.1" fill="currentColor" />
+            </svg>
+        </button>
     </div>
 
     <div id="canvasHolder">
-        <canvas id="memeEditor" width="800" height="600"></canvas>
+        <canvas id="memeEditor" width="800" height="600" tabindex="0"></canvas>
+        <div id="customTouchLayer"></div>
+        <button id="customDeleteText" type="button" aria-label="Delete selected text" hidden>×</button>
+        <button id="customEditText" class="custom-mobile-handle" type="button" aria-label="Edit text" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4" /></svg></button>
+        <button id="customResizeText" class="custom-mobile-handle" type="button" aria-label="Resize text" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v5h5M20 9V4h-5M4 20 20 4" /></svg></button>
         <div id="uploadHint" class="upload-hint">
             <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -144,7 +170,7 @@
         <input type="file" id="imageLoader" name="imageLoader" accept="image/*" hidden />
     </div>
     <div class="controls">
-        <div class="horizGroupImpact">
+        <div class="horizGroupImpact" id="standardControls">
             <input type="text" class="textInput" id="topText" placeholder="top text">
             <input type="text" class="textInput" id="bottomText" placeholder="bottom text">
             <button id="advBtn">advanced settings</button>
@@ -183,6 +209,58 @@
                 </div>
             </div>
         </div>
+        <section id="customControls" class="hidden">
+            <div class="custom-toolbar">
+                <button id="customMobileAddText" type="button">+ add text</button>
+                <div class="custom-dropdown">
+                    <button id="customTextDropdown" type="button" aria-controls="customTextMenu"
+                        aria-expanded="false">text ▼</button>
+
+                    <div id="customTextMenu" hidden>
+                        <button id="customAddText" type="button">+ add text</button>
+                        <div id="customLayerList"></div>
+                    </div>
+                </div>
+
+                <button id="customChangeImage" type="button">change image</button>
+            </div>
+            <div id="customProperties" class="hidden">
+                <label class="custom-text-field">
+                    <span>Text</span>
+                    <textarea id="customText" rows="2"></textarea>
+                </label>
+
+                <div class="custom-appearance">
+                    <label>
+                        <span>Font</span>
+                        <select id="customFont">
+                            <option value="impact">Impact</option>
+                            <option value="anton">Anton</option>
+                            <option value="futura">Futura</option>
+                            <option value="times">Times New Roman</option>
+                            <option value="liberation">Liberation Sans</option>
+                            <option value="libreFranklin">Libre Franklin</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        <span>Size (%)</span>
+                        <input id="customSize" type="number" min="1" max="100" step="0.1" value="8">
+                    </label>
+
+                    <label>
+                        <span>Color</span>
+                        <input id="customColor" type="color" value="#ffffff">
+                    </label>
+
+                    <label>
+                        <span>Outline</span>
+                        <input id="customOutline" type="number" min="0" max="20" value="3">
+                    </label>
+                </div>
+            </div>
+        </section>
+
         <button id="exportBtn">export</button>
     </div>
     <div class="version-indicator" id="versionBtn">v1.3.4</div>
@@ -224,7 +302,8 @@
                 </button>
                 <button id="exportDiscordBtn" class="export-choice-btn">
                     <h3>compact mode</h3>
-                    <p>compress the file under 10MB for support in services with a <br> size limit such as Discord.<br>may decrease GIF quality.</p>
+                    <p>compress the file under 10MB for support in services with a <br> size limit such as
+                        Discord.<br>may decrease GIF quality.</p>
                 </button>
             </div>
         </div>

@@ -42,7 +42,8 @@ body.adv-open {
     height: 36px;
     padding: 6px;
     background: transparent;
-    color: #fff; /* makes inline SVG fill via currentColor */
+    color: #fff;
+    /* makes inline SVG fill via currentColor */
     text-decoration: none;
     border: none;
     border-radius: 6px;
@@ -57,11 +58,11 @@ body.adv-open {
 }
 
 #githubBtn:hover {
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
 }
 
 #githubBtn:focus {
-    outline: 2px solid rgba(255,255,255,0.12);
+    outline: 2px solid rgba(255, 255, 255, 0.12);
     outline-offset: 2px;
 }
 
@@ -71,7 +72,8 @@ body.adv-open {
     gap: 1rem;
     margin-bottom: 1rem;
     justify-content: center;
-    width: 45vw; /* Match canvas width */
+    width: 45vw;
+    /* Match canvas width */
     max-width: 1200px;
 }
 
@@ -82,12 +84,14 @@ body.adv-open {
     padding: 10px;
     border-radius: 8px;
     cursor: pointer;
-    flex: 1; /* Equal width */
+    flex: 1;
+    /* Equal width */
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    height: 50px; /* Fixed height for consistency */
+    height: 50px;
+    /* Fixed height for consistency */
 }
 
 .mode-btn svg {
@@ -106,7 +110,8 @@ body.adv-open {
 
 /* container for the canvas */
 #canvasHolder {
-    position: relative; /* Needed for absolute positioning of hint */
+    position: relative;
+    /* Needed for absolute positioning of hint */
     display: block;
     justify-content: center;
     align-items: center;
@@ -326,13 +331,25 @@ button:active {
 
 /* Modal Overlay */
 @keyframes modalFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes modalContentScale {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .modal {
@@ -378,7 +395,7 @@ button:active {
     width: 100%;
     max-width: 500px;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     font-family: sans-serif;
     min-height: 300px;
     display: flex;
@@ -475,7 +492,8 @@ button:active {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    pointer-events: none; /* Let clicks pass through to canvas/container */
+    pointer-events: none;
+    /* Let clicks pass through to canvas/container */
     opacity: 0.7;
     transition: opacity 0.2s;
 }
@@ -484,7 +502,7 @@ button:active {
     color: white;
     font-family: 'Libre Franklin', sans-serif;
     font-size: 1.2rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
@@ -559,22 +577,22 @@ button:active {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     .nav-group {
         flex-direction: row;
         gap: 15px;
     }
-    
+
     .modal-content {
         order: 2;
         max-height: 60vh;
         overflow-y: auto;
     }
-    
+
     .nav-group.left {
         order: 1;
     }
-    
+
     .nav-group.right {
         order: 3;
     }
@@ -747,4 +765,371 @@ button:active {
 #errorOkBtn:hover {
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
+}
+
+
+/* Custom Mode Styles */
+.custom-toolbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+#customTextDropdown,
+#customChangeImage {
+    width: 100%;
+}
+
+#customTextMenu {
+    position: absolute;
+    z-index: 10;
+}
+
+#customTextMenu[hidden] {
+    display: none;
+}
+
+#customTextMenu {
+    max-height: 14.5rem;
+    overflow-y: auto;
+}
+
+#customLayerList button {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#customDeleteText {
+    position: absolute;
+    z-index: 5;
+
+    /* Match the app's black and white buttons */
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: black;
+    color: white;
+
+    /* Center the X */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+
+    /* Center the circle on the text box's top-left corner */
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+#customDeleteText[hidden] {
+    display: none;
+}
+
+/* Keep the button centered when the app's general active style applies */
+#customDeleteText:active {
+    transform: translate(-50%, -50%);
+}
+
+
+/* Desktop custom mode controls */
+@media (min-width: 601px) {
+    #customControls {
+        width: 100%;
+    }
+
+    #customTextDropdown,
+    #customChangeImage,
+    #customAddText,
+    #customLayerList button {
+        box-sizing: border-box;
+        padding: 10px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+        cursor: pointer;
+    }
+
+    #customTextDropdown,
+    #customChangeImage {
+        width: 100%;
+        min-height: 44px;
+    }
+
+    #customTextMenu {
+        top: calc(100% + 4px);
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+    }
+
+    #customAddText {
+        width: 100%;
+    }
+
+    #customLayerList button {
+        margin-top: 4px;
+        text-align: left;
+    }
+
+    #customLayerList button[aria-pressed="true"] {
+        background: #333;
+    }
+
+    #customProperties:not(.hidden) {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .custom-text-field,
+    .custom-appearance label {
+        display: grid;
+        gap: 0.5rem;
+        min-width: 0;
+        text-align: left;
+        font-size: 0.85rem;
+        color: white;
+    }
+
+    .custom-appearance {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    #customProperties textarea,
+    #customProperties select,
+    #customProperties input {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        padding: 8px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+    }
+
+    #customProperties textarea {
+        resize: vertical;
+    }
+
+    #customProperties input[type="color"] {
+        padding: 4px;
+        cursor: pointer;
+    }
+
+    .controls {
+        gap: 1rem;
+    }
+
+}
+
+
+/* Desktop uses the text dropdown. */
+#customMobileAddText {
+    display: none;
+}
+
+/* Mobile uses a direct Add Text button. */
+@media (max-width: 600px) {
+    .custom-dropdown {
+        display: none;
+    }
+
+    #customMobileAddText {
+        display: block;
+    }
+
+    #customMobileAddText,
+    #customChangeImage {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+        cursor: pointer;
+    }
+}
+
+#customTouchLayer {
+    display: none;
+}
+
+.custom-mobile-handle {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    body.custom-mode #customProperties:not(.hidden) {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    body.custom-mode .custom-text-field {
+        display: none;
+    }
+
+    body.custom-mode .custom-appearance {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.35rem;
+    }
+
+    body.custom-mode .custom-appearance label {
+        display: grid;
+        gap: 0.2rem;
+        min-width: 0;
+        color: white;
+        font: 0.7rem 'Libre Franklin', sans-serif;
+    }
+
+    body.custom-mode .custom-appearance label:nth-child(1) { order: 1; }
+    body.custom-mode .custom-appearance label:nth-child(2) { order: 3; }
+    body.custom-mode .custom-appearance label:nth-child(3) { order: 2; }
+    body.custom-mode .custom-appearance label:nth-child(4) { order: 4; }
+
+    body.custom-mode .custom-appearance input,
+    body.custom-mode .custom-appearance select,
+    body.custom-mode #customText {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 2.75rem;
+        padding: 0.3rem;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+    }
+
+    body.custom-mode .custom-appearance input[type='color'] { padding: 0.2rem; }
+
+    body.custom-mode #customMobileAddText,
+    body.custom-mode #customChangeImage,
+    body.custom-mode #exportBtn {
+        box-sizing: border-box;
+        min-height: 2.75rem;
+        padding: 0.6rem;
+        border: 2px solid white;
+        border-radius: 5px;
+        background: black;
+        color: white;
+        font: 1rem 'Libre Franklin', sans-serif;
+    }
+
+    body.custom-mode .custom-mobile-handle:not([hidden]) {
+        position: absolute;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.625rem;
+        height: 1.625rem;
+        padding: 0.25rem;
+        box-sizing: border-box;
+        border: 2px solid white;
+        border-radius: 50%;
+        background: black;
+        color: white;
+        transform: translate(-50%, -50%);
+        touch-action: none;
+    }
+
+    body.custom-mode .custom-mobile-handle:active { transform: translate(-50%, -50%); }
+    .custom-mobile-handle svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    body.custom-mode.custom-editing .custom-appearance { display: none; }
+    body.custom-mode.custom-editing .custom-mobile-handle { visibility: hidden; }
+    body.custom-mode.custom-editing .custom-toolbar,
+    body.custom-mode.custom-editing #exportBtn { display: none; }
+    body.custom-mode.custom-editing #customProperties:not(.hidden) {
+        display: block;
+        margin-top: 0;
+    }
+    body.custom-mode.custom-editing .custom-text-field { display: block; min-width: 0; }
+    body.custom-mode.custom-editing .custom-text-field span { display: none; }
+    body.custom-mode.custom-editing .controls {
+        position: fixed;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        bottom: var(--custom-keyboard-offset, 0px);
+        height: auto;
+        padding: 10px;
+        z-index: 999999;
+        left: 0;
+        width: 100%;
+        transform: none;
+        border-radius: 0;
+        box-sizing: border-box;
+    }
+
+    body.custom-mode.custom-editing #customText {
+        display: block;
+        height: calc(1.05rem * 1.2 + 1.7rem + 4px);
+        min-height: 0;
+        padding: 0.85rem 0.75rem;
+        border-radius: 8px;
+        font-size: 1.05rem;
+        line-height: 1.2;
+        text-align: center;
+        resize: none;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    body.custom-mode #memeEditor {
+        touch-action: pan-y;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+    }
+    body.custom-mode #canvasHolder {
+    -webkit-tap-highlight-color: transparent;
+}
+
+    body.custom-mode #customTouchLayer {
+        display: block;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .custom-touch-target {
+        position: absolute;
+        pointer-events: auto;
+        touch-action: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+@media (max-width: 600px) {
+    #customDeleteText {
+        width: 1.625rem;
+        height: 1.625rem;
+        font-size: 1.125rem;
+    }
 }
